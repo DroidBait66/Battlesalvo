@@ -7,7 +7,8 @@ package cs3500.pa03.model;
 public class Coord {
 
   public int x;
-  public int y; //not sure if should be public or private
+  public int y;
+  public CellStatus status;
 
   /**
    * Constructor for Coord class
@@ -15,9 +16,10 @@ public class Coord {
    * @param x is the X coord of the cell
    * @param y is the Y coord of the cell
    */
-  public Coord(int x, int y) {
+  public Coord(int x, int y, CellStatus status) {
     this.x = x;
     this.y = y;
+    this.status = status;
   }
 
   /**
@@ -36,6 +38,15 @@ public class Coord {
    */
   public int getY() {
     return this.y;
+  }
+
+  /**
+   * getter for the status of a given cell
+   *
+   * @return the CellStatus
+   */
+  public CellStatus getStatus() {
+    return this.status;
   }
 
 }

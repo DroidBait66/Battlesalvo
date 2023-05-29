@@ -24,5 +24,7 @@ public class ShipTypeTest {
     assertEquals(5, battleship.getSize());
     assertEquals(4, destroyer.getSize());
     assertEquals(3,sub.getSize());
+
+
   }
 }

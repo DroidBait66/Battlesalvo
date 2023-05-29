@@ -2,6 +2,7 @@ package cs3500.pa03.modelTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import cs3500.pa03.model.CellStatus;
 import cs3500.pa03.model.Coord;
 import cs3500.pa03.model.Ship;
 import cs3500.pa03.model.ShipType;
@@ -14,10 +15,11 @@ public class ShipTest {
 
   @Test
   public void testGetTotalDamaged() {
-    List<Coord> location = new ArrayList<>(Arrays.asList(new Coord(1,2), new Coord(1,3),
-        new Coord(1,4)));
+    List<Coord> location = new ArrayList<>(Arrays.asList(new Coord(1, 2, CellStatus.SHIP),
+        new Coord(1, 3, CellStatus.SHIP), new Coord(1, 4, CellStatus.SHIP)));
 
-    List<Coord> damage = new ArrayList<>(Arrays.asList(new Coord(1,2), new Coord(1,3)));
+    List<Coord> damage = new ArrayList<>(Arrays.asList(new Coord(1, 2, CellStatus.SHIP),
+        new Coord(1, 3, CellStatus.SHIP)));
 
     Ship ex1 = new Ship(ShipType.CARRIER, location);
     assertEquals(new ArrayList<Coord>(), ex1.getTotalDamage()); //check before any salvos
@@ -25,7 +27,7 @@ public class ShipTest {
     ex1.getSalvoDamage(damage);
     assertEquals(damage, ex1.getTotalDamage()); //check after first salvo
 
-    damage.add(new Coord(1,4));
+    damage.add(new Coord(1, 4, CellStatus.SHIP));
     ex1.getSalvoDamage(damage); //salvo with coords already in damagedCells
     assertEquals(damage, ex1.getTotalDamage()); // test with second salvo
 
