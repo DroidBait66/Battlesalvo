@@ -1,4 +1,4 @@
-package cs3500.pa03;
+package cs3500.pa03.model;
 
 import java.util.List;
 import java.util.Map;
