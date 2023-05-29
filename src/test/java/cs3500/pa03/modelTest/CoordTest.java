@@ -1,0 +1,26 @@
+package cs3500.pa03.modelTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import cs3500.pa03.model.Coord;
+import org.junit.jupiter.api.Test;
+
+/**
+ * Test class for Coord object
+ */
+public class CoordTest {
+
+  /**
+   * Tests getters in Coord object
+   */
+  @Test
+  public void testCoord() {
+    Coord ex1 = new Coord(1, 4);
+    Coord ex2 = new Coord(5,7);
+
+    assertEquals(1, ex1.getX());
+    assertEquals(4, ex1.getY());
+    assertEquals(5, ex2.getX());
+    assertEquals(7, ex2.getY());
+  }
+}
