@@ -17,7 +17,7 @@ public class CoordTest {
   @Test
   public void testCoord() {
     Coord ex1 = new Coord(1, 4, CellStatus.SHIP);
-    Coord ex2 = new Coord(5, 7, CellStatus.EMPT);
+    final Coord ex2 = new Coord(5, 7, CellStatus.EMPT);
 
     assertEquals(1, ex1.getX());
     assertEquals(4, ex1.getY());

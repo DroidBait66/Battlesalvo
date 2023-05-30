@@ -18,7 +18,7 @@ public class ShipTypeTest {
     ShipType carrier = ShipType.CARRIER;
     ShipType battleship = ShipType.BATTLESHIP;
     ShipType destroyer = ShipType.DESTROYER;
-    ShipType sub = ShipType.SUBMARINE;
+    final ShipType sub = ShipType.SUBMARINE;
 
     assertEquals(6, carrier.getSize());
     assertEquals(5, battleship.getSize());
