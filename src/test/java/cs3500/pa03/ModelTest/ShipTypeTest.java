@@ -1,4 +1,4 @@
-package cs3500.pa03.modelTest;
+package cs3500.pa03.ModelTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,7 +23,7 @@ public class ShipTypeTest {
     assertEquals(6, carrier.getSize());
     assertEquals(5, battleship.getSize());
     assertEquals(4, destroyer.getSize());
-    assertEquals(3,sub.getSize());
+    assertEquals(3, sub.getSize());
 
 
   }

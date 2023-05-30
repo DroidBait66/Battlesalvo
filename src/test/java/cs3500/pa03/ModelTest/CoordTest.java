@@ -1,4 +1,4 @@
-package cs3500.pa03.modelTest;
+package cs3500.pa03.ModelTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,7 +17,7 @@ public class CoordTest {
   @Test
   public void testCoord() {
     Coord ex1 = new Coord(1, 4, CellStatus.SHIP);
-    Coord ex2 = new Coord(5,7, CellStatus.EMPT);
+    Coord ex2 = new Coord(5, 7, CellStatus.EMPT);
 
     assertEquals(1, ex1.getX());
     assertEquals(4, ex1.getY());
