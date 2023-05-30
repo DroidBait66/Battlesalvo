@@ -11,7 +11,7 @@ public class Ship {
   final ShipType type;
   final List<Coord> location;
   private List<Coord> salvoDamage = new ArrayList<>();
-  private List<Coord> damagedCells = new ArrayList<>();
+  private List<Coord> damagedCells = new ArrayList<>(); //Do not make final
 
   /**
    * Constructor for Class Ship
