@@ -33,6 +33,11 @@ public class ShotsAi {
   }
 
   // Maybe delete
+  public void setOpBoard(Board opponentBoard) {
+    opBoard = opponentBoard.getOpponentBoard(opponentBoard.getBoard());
+  }
+
+  // Maybe delete
   /**
    * getter to check how many empty spaces the opponent has
    *

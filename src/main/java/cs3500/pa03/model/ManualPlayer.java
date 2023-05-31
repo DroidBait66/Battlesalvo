@@ -10,6 +10,7 @@ import java.util.Random;
  * Manual player class. Processes what the user is doing
  */
 public class ManualPlayer implements Player {
+
   final private String playerName;
   private int shipsRemaining;
   public Board gameBoard;
@@ -236,10 +237,24 @@ public class ManualPlayer implements Player {
    */
   @Override
   public void successfulHits(List<Coord> shotsThatHitOpponentShips) {
-    System.out.println("Shots that hit opponent: ");
+    String phrase = "Shots that hit opponent: \n";
+    for (Coord c : shotsThatHitOpponentShips) {
+      phrase += "X: " + c.getX() + " Y: " + c.getY() + "\n";
+    }
+
+
+
+
+
+    Appendable appendable = new StringBuilder();
+
+
+
+
+   /* System.out.println("Shots that hit opponent: ");
     for (Coord c : shotsThatHitOpponentShips) {
       System.out.println("X: " + c.getX() + " Y: " + c.getY());
-    }
+    }*/
 
   }
 

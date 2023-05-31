@@ -236,7 +236,7 @@ public class ManualPlayerTest {
     assertEquals(CellStatus.EMPT, player.takeShots().get(0).getStatus());
     assertEquals(CellStatus.EMPT, player.takeShots().get(1).getStatus());
     assertEquals(CellStatus.EMPT, player.takeShots().get(2).getStatus());
-
+    System.out.println("Test");
 
 
   }

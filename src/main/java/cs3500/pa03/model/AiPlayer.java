@@ -168,18 +168,85 @@ public class AiPlayer implements Player {
 
 
   /**
-   * @return
+   *  calculates Ai Shots
+   *
+   * @return a list of coords
    */
   @Override
   public List<Coord> takeShots() {
-    return null;
+    opBoard = salvoAi.getOpBoard();
+    int shotsLeft = shipsRemaining;
+    List<Coord> output = new ArrayList<>();
+    ArrayList<Coord> prevHits = findHit();
+    if (prevHits.size() < 0) {  ///////  MAKE > 0 -------------------------------
+      for (int i = 0; i < shotsLeft; i += 1) {
+
+      }
+    } else {
+      for (int i = 0; i < shotsLeft; i += 1) {
+        output.add(randomHit(output));
+      }
+    }
+    return output;
   }
 
-  /**
-   * @param opponentShotsOnBoard the opponent's shots on this player's board
-   *
-   * @return a list of Coords where the opponent damaged ships
-   */
+  private boolean notInExclude(List<Coord> exclude, int x, int y) {
+    for (Coord c : exclude) {
+      if (c.getX() == x && c.getY() == y) {
+        return false;
+      }
+    }
+    return true;
+  }
+  private Coord randomHit(List<Coord> exclude) {
+    int x = rand.nextInt(opBoard.get(0).size());
+    int y = rand.nextInt(opBoard.size());
+    Coord maybeShot = new Coord(x, y, opBoard.get(y).get(x));
+    if (maybeShot.getStatus().equals(CellStatus.EMPT) && notInExclude(exclude, x, y)) {
+      return maybeShot;
+    } else {
+      return randomHit(exclude);
+    }
+  }
+
+
+
+  private ArrayList<Coord> findHit() {
+    ArrayList<Coord> result = new ArrayList<>();
+    for (int i = 0; i < opBoard.size(); i += 1) {
+      for (int j = 0; j < opBoard.get(i).size(); j += 1) {
+        if (opBoard.get(i).get(j).equals(CellStatus.HIT_)) {
+          result.add(new Coord(j, i, CellStatus.HIT_));
+        }
+      }
+    }
+    return result;
+  }
+
+
+  private boolean checkLeft(int x, int y, CellStatus status) {
+      return opBoard.get(y).get(x - 1).equals(status);
+    }
+
+    private boolean checkRight(int x, int y, CellStatus status) {
+      return opBoard.get(y).get(x + 1).equals(status);
+    }
+
+    private boolean checkUp(int x, int y, CellStatus status) {
+      return opBoard.get(y - 1).get(x).equals(status);
+    }
+
+    private boolean checkDown(int x, int y, CellStatus status) {
+      return opBoard.get(y + 1).get(x).equals(status);
+    }
+
+
+
+    /**
+     * @param opponentShotsOnBoard the opponent's shots on this player's board
+     *
+     * @return a list of Coords where the opponent damaged ships
+     */
   @Override
   public List<Coord> reportDamage(List<Coord> opponentShotsOnBoard) {
     ArrayList<Coord> damageResult = new ArrayList<>();
@@ -193,7 +260,7 @@ public class AiPlayer implements Player {
         }
       }
     }
-    salvoAi.setRemainingShips(shipsLeft());
+    salvoAi.setRemainingShips(shipLeft());
     gameBoard = new Board(gameBoard.updateBoard(opponentShotsOnBoard, damageResult));
     return damageResult;
   }
@@ -203,7 +270,7 @@ public class AiPlayer implements Player {
    *
    * @return the updated amount of ships remaining
    */
-  private int shipsLeft() {
+  private int shipLeft() {
     for (Ship s : aiShips) {
       if (!s.isFloating()) {
         shipsRemaining -= 1;

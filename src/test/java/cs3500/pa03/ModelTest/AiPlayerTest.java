@@ -231,4 +231,11 @@ public class AiPlayerTest {
 
   }
 
+  @Test
+  public void testTakeShots() {
+    player.setup(height, width, specifications);
+    salvo1.setOpBoard(playerManual.gameBoard);
+    System.out.println(player.takeShots());
+  }
+
 }
