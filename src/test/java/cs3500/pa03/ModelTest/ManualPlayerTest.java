@@ -196,6 +196,8 @@ public class ManualPlayerTest {
   @Test
   public void testReportDamage() {
     player.setup(height, width, specifications);
+    for (int i = 0; i < 8; i += 1) { System.out.println(player.gameBoard.getBoard().get(i)); }
+    System.out.println("BREAK");
 
 
     assertEquals(6, salvo.getRemainingShips());
@@ -215,6 +217,7 @@ public class ManualPlayerTest {
     for (int i = 0; i < 6; i += 1) {
       assertEquals(7, secondSalvo.get(i).getY());
     }
+    for (int i = 0; i < 8; i += 1) { System.out.println(player.gameBoard.getBoard().get(i)); }
 
     assertEquals(5, salvo.getRemainingShips());
   }

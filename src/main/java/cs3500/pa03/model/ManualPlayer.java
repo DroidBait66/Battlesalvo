@@ -210,6 +210,7 @@ public class ManualPlayer implements Player {
       }
     }
     salvos.setRemainingShips(shipsLeft());
+    gameBoard = new Board(gameBoard.updateBoard(opponentShotsOnBoard, damageResult));
     return damageResult;
   }
 

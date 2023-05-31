@@ -194,6 +194,7 @@ public class AiPlayer implements Player {
       }
     }
     salvoAi.setRemainingShips(shipsLeft());
+    gameBoard = new Board(gameBoard.updateBoard(opponentShotsOnBoard, damageResult));
     return damageResult;
   }
 

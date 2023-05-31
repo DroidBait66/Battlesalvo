@@ -7,15 +7,6 @@ public class ShotsAi {
   private ArrayList<ArrayList<CellStatus>> opBoard;
   private int emptySpaces;
 
-   /**
-   * Constructor that takes in a player
-   * @param p manual player
-   */
-  //public ShotsAi(AiPlayer p) {
-  //  this.aiP = p;
-  //}
-
-
 
 
 //Maybe delete
@@ -34,6 +25,11 @@ public class ShotsAi {
         }
       }
     }
+  }
+
+  // Maybe delete
+  public ArrayList<ArrayList<CellStatus>> getOpBoard() {
+    return opBoard;
   }
 
   // Maybe delete

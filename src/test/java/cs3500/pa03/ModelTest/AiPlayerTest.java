@@ -228,6 +228,7 @@ public class AiPlayerTest {
       assertEquals(7, secondSalvo.get(i).getY());
     }
     assertEquals(5, salvo1.getRemainingShips());
+
   }
 
 }

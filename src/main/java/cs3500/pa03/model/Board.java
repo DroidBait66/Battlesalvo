@@ -1,6 +1,7 @@
 package cs3500.pa03.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for object Board
@@ -28,7 +29,7 @@ public class Board {
    * @param damageCoords all shots that damaged your ships
    * @return a board that is updated with misses and hits
    */
-  public ArrayList<ArrayList<CellStatus>> updateBoard(ArrayList<Coord> allOpShots,
+  public ArrayList<ArrayList<CellStatus>> updateBoard(List<Coord> allOpShots,
                                                       ArrayList<Coord> damageCoords) {
     ArrayList<Coord> missedShots = new ArrayList<>();
     for (Coord allOpShot : allOpShots) {
