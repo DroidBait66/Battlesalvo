@@ -9,7 +9,7 @@ import java.util.List;
 public class Ship {
 
   final ShipType type;
-  final List<Coord> location;
+  public List<Coord> location;
   private List<Coord> salvoDamage = new ArrayList<>();
   private List<Coord> damagedCells = new ArrayList<>(); //Do not make final
 

@@ -3,10 +3,14 @@ package cs3500.pa03.ModelTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cs3500.pa03.model.CellStatus;
+import cs3500.pa03.model.Coord;
 import cs3500.pa03.model.ManualPlayer;
 import cs3500.pa03.model.ShipType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +40,10 @@ public class ManualPlayerTest {
   int heightMin;
   int widthMin;
 
+  List<Coord> shotCoords;
+  List<Coord> sinkCarrier;
+
+
   /**
    * Set up for ManualPlayer
    */
@@ -54,7 +62,7 @@ public class ManualPlayerTest {
     height = 8;
     width = 9;
 
-    player = new ManualPlayer(name, shipsRemaining);
+    player = new ManualPlayer(name, shipsRemaining, new Random(8));
 
 
     specificationsMax = new HashMap<>();
@@ -69,7 +77,7 @@ public class ManualPlayerTest {
 
     heightMax = 16;
     widthMax = 16;
-    playerMax = new ManualPlayer(name, shipsRemainingMax);
+    playerMax = new ManualPlayer(name, shipsRemainingMax, new Random());
 
     specificationsMin = new HashMap<>();
     specificationsMin.put(ShipType.CARRIER, 1);
@@ -83,8 +91,19 @@ public class ManualPlayerTest {
 
     heightMin = 6;
     widthMin = 6;
-    playerMin = new ManualPlayer(name, shipsRemainingMin);
+    playerMin = new ManualPlayer(name, shipsRemainingMin, new Random());
 
+    // player carrier coords: 2,7 3,7 4,7 5,7 ,6,7 7,7
+
+
+    shotCoords = new ArrayList<>(Arrays.asList(new Coord(0, 0, CellStatus.EMPT),
+        new Coord(2, 7, CellStatus.EMPT), new Coord(2, 0, CellStatus.EMPT),
+        new Coord(1, 1, CellStatus.EMPT), new Coord(3, 7, CellStatus.EMPT)));
+
+    sinkCarrier = new ArrayList<>(Arrays.asList(new Coord(4, 7, CellStatus.EMPT),
+        new Coord(2, 7, CellStatus.EMPT), new Coord(5, 7, CellStatus.EMPT),
+        new Coord(7, 7, CellStatus.EMPT), new Coord(3, 7, CellStatus.EMPT),
+        new Coord(6, 7, CellStatus.EMPT)));
 
   }
 
@@ -161,4 +180,29 @@ public class ManualPlayerTest {
     assertEquals(numberOfShipBlocksMin, counterMin);
 
   }
+
+
+  /**
+   * Test report damage method
+   */
+  @Test
+  public void testReportDamage() {
+    player.setup(height, width, specifications);
+    List<Coord> firstSalvo = player.reportDamage(shotCoords);
+    assertEquals(2, firstSalvo.get(0).getX());
+    assertEquals(7, firstSalvo.get(0).getY());
+    assertEquals(3, firstSalvo.get(1).getX());
+    assertEquals(7, firstSalvo.get(1).getY());
+    List<Coord> secondSalvo = player.reportDamage(sinkCarrier);
+    assertEquals(4, secondSalvo.get(0).getX());
+    assertEquals(2, secondSalvo.get(1).getX());
+    assertEquals(5, secondSalvo.get(2).getX());
+    assertEquals(7, secondSalvo.get(3).getX());
+    assertEquals(3, secondSalvo.get(4).getX());
+    assertEquals(6, secondSalvo.get(5).getX());
+    for (int i = 0; i < 6; i += 1) {
+      assertEquals(7, secondSalvo.get(i).getY());
+    }
+  }
+
 }
