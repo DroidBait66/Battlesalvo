@@ -15,7 +15,7 @@ public class ManualPlayer implements Player {
   public Board gameBoard;
   private ArrayList<ArrayList<CellStatus>> opBoard; // DELETE
   private List<Ship> playerShips;
-  Shots salvos;
+  private Shots salvos;
   private Random rand;
 
   /**
@@ -215,6 +215,8 @@ public class ManualPlayer implements Player {
 
   /**
    * updates shipsRemaining variable
+   *
+   * @return the updated amount of ships remaining
    */
   private int shipsLeft() {
     for (Ship s : playerShips) {

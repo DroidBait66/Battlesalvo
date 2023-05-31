@@ -8,6 +8,7 @@ import cs3500.pa03.model.Coord;
 import cs3500.pa03.model.ManualPlayer;
 import cs3500.pa03.model.ShipType;
 import cs3500.pa03.model.Shots;
+import cs3500.pa03.model.ShotsAi;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,6 +46,9 @@ public class AiPlayerTest {
 
   int[][] salvoArray = new int[][] {{1, 2}, {3, 4}, {5, 6}};
   Shots salvo;
+  ShotsAi salvo1;
+  ShotsAi salvo2;
+  ShotsAi salvo3;
 
 
 
@@ -66,11 +70,11 @@ public class AiPlayerTest {
 
     height = 8;
     width = 9;
-    salvo = new Shots(playerManual);
+    salvo = new Shots();
     playerManual = new ManualPlayer("player", shipsRemaining, new Random(8), salvo);
     playerManual.setup(height, width, specifications);
-
-    player = new AiPlayer(name, shipsRemaining, new Random(8));
+    salvo1 = new ShotsAi();
+    player = new AiPlayer(name, shipsRemaining, new Random(8), salvo1);
     salvo.setSalvo(salvoArray);
 
 
@@ -90,7 +94,8 @@ public class AiPlayerTest {
     manPlayerMax = new ManualPlayer("player", shipsRemaining, new Random(5), salvo);
     manPlayerMax.setup(height, width, specifications);
 
-    playerMax = new AiPlayer(name, shipsRemainingMax, new Random(9));
+    salvo2 = new ShotsAi();
+    playerMax = new AiPlayer(name, shipsRemainingMax, new Random(9), salvo2);
 
     specificationsMin = new HashMap<>();
     specificationsMin.put(ShipType.CARRIER, 1);
@@ -106,7 +111,8 @@ public class AiPlayerTest {
     widthMin = 6;
     manPlayerMin = new ManualPlayer("player", shipsRemaining, new Random(12), salvo);
     manPlayerMin.setup(height, width, specifications);
-    playerMin = new AiPlayer(name, shipsRemainingMin, new Random(10));
+    salvo3 = new ShotsAi();
+    playerMin = new AiPlayer(name, shipsRemainingMin, new Random(10), salvo3);
 
     // player carrier coords: 2,7 3,7 4,7 5,7 ,6,7 7,7 for seed 8
 
@@ -195,6 +201,33 @@ public class AiPlayerTest {
 
     assertEquals(numberOfShipBlocksMin, counterMin);
 
+  }
+
+  /**
+   * Test report damage method
+   */
+  @Test
+  public void testReportDamage() {
+    player.setup(height, width, specifications);
+
+    assertEquals(6, salvo1.getRemainingShips());
+
+    List<Coord> firstSalvo = player.reportDamage(shotCoords);
+    assertEquals(2, firstSalvo.get(0).getX());
+    assertEquals(7, firstSalvo.get(0).getY());
+    assertEquals(3, firstSalvo.get(1).getX());
+    assertEquals(7, firstSalvo.get(1).getY());
+    List<Coord> secondSalvo = player.reportDamage(sinkCarrier);
+    assertEquals(4, secondSalvo.get(0).getX());
+    assertEquals(2, secondSalvo.get(1).getX());
+    assertEquals(5, secondSalvo.get(2).getX());
+    assertEquals(7, secondSalvo.get(3).getX());
+    assertEquals(3, secondSalvo.get(4).getX());
+    assertEquals(6, secondSalvo.get(5).getX());
+    for (int i = 0; i < 6; i += 1) {
+      assertEquals(7, secondSalvo.get(i).getY());
+    }
+    assertEquals(5, salvo1.getRemainingShips());
   }
 
 }

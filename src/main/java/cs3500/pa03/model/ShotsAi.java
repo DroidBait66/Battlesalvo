@@ -1,40 +1,22 @@
 package cs3500.pa03.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Dependency injection class
- */
-public class Shots {
-  private List<Coord> curSalvo = new ArrayList<>();
+public class ShotsAi {
   private int ships;
   private ArrayList<ArrayList<CellStatus>> opBoard;
   private int emptySpaces;
 
-
-  /**
-   * converts a 2d array of ints into a list of coords (user input into)
-   *
-   * @param inputSalvo given 2d array
+   /**
+   * Constructor that takes in a player
+   * @param p manual player
    */
-  public void setSalvo(int[][] inputSalvo) {
-    List<Coord> tempSalvo = new ArrayList<>();
-    for (int[] xy : inputSalvo) {
-      Coord salvo = new Coord(xy[0], xy[1], CellStatus.EMPT);
-      tempSalvo.add(salvo);
-    }
-    curSalvo = tempSalvo;
-  }
+  //public ShotsAi(AiPlayer p) {
+  //  this.aiP = p;
+  //}
 
-  /**
-   * Getter for the salvo
-   *
-   * @return a list of coords
-   */
-  public List<Coord> getSalvo() {
-    return curSalvo;
-  }
+
+
 
 //Maybe delete
   /**

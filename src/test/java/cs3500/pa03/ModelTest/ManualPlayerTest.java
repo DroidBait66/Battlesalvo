@@ -66,7 +66,7 @@ public class ManualPlayerTest {
 
     height = 8;
     width = 9;
-    salvo = new Shots(player);
+    salvo = new Shots();
 
     player = new ManualPlayer(name, shipsRemaining, new Random(8), salvo);
     salvo.setSalvo(salvoArray);
@@ -196,6 +196,7 @@ public class ManualPlayerTest {
   @Test
   public void testReportDamage() {
     player.setup(height, width, specifications);
+
 
     assertEquals(6, salvo.getRemainingShips());
 

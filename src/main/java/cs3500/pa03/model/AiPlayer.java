@@ -1,6 +1,7 @@
 package cs3500.pa03.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -13,8 +14,9 @@ public class AiPlayer implements Player {
   int shipsRemaining;
   public Board gameBoard;
   private ArrayList<ArrayList<CellStatus>> opBoard;
-  private List<Ship> playerShips;
+  private List<Ship> aiShips;
   Random rand;
+  private ShotsAi salvoAi;
 
   /**
    * Constructor for Ai Player
@@ -23,10 +25,11 @@ public class AiPlayer implements Player {
    * @param shipsRemaining how many ships are remaining
    * @param rand random variable, used to set seed in testing
    */
-  public AiPlayer(String playerName, int shipsRemaining, Random rand) {
+  public AiPlayer(String playerName, int shipsRemaining, Random rand, ShotsAi salvoAi) {
     this.playerName = playerName;
     this.shipsRemaining = shipsRemaining;
     this.rand = rand;
+    this.salvoAi = salvoAi;
   }
 
 
@@ -49,6 +52,7 @@ public class AiPlayer implements Player {
    */
   @Override
   public List<Ship> setup(int height, int width, Map<ShipType, Integer> specifications) {
+    salvoAi.setRemainingShips(shipsRemaining);
     List<Ship> result = new ArrayList<>();
     ArrayList<ArrayList<CellStatus>> tempBoard = createBoard(height, width);
 
@@ -85,7 +89,7 @@ public class AiPlayer implements Player {
       }
     }
     gameBoard = new Board(tempBoard);
-    playerShips = result;
+    aiShips = result;
     return result;
   }
 
@@ -173,11 +177,38 @@ public class AiPlayer implements Player {
 
   /**
    * @param opponentShotsOnBoard the opponent's shots on this player's board
-   * @return
+   *
+   * @return a list of Coords where the opponent damaged ships
    */
   @Override
   public List<Coord> reportDamage(List<Coord> opponentShotsOnBoard) {
-    return null;
+    ArrayList<Coord> damageResult = new ArrayList<>();
+    for (Ship s : aiShips) {
+      for (Coord c : opponentShotsOnBoard) {
+        for (Coord shipC : s.getLocation()) {
+          if (shipC.getX() == (c.getX()) && shipC.getY() == c.getY()) {
+            damageResult.add(c);
+            s.getSalvoDamage(new ArrayList<>(Arrays.asList(c)));
+          }
+        }
+      }
+    }
+    salvoAi.setRemainingShips(shipsLeft());
+    return damageResult;
+  }
+
+  /**
+   * updates shipsRemaining variable
+   *
+   * @return the updated amount of ships remaining
+   */
+  private int shipsLeft() {
+    for (Ship s : aiShips) {
+      if (!s.isFloating()) {
+        shipsRemaining -= 1;
+      }
+    }
+    return shipsRemaining;
   }
 
   /**
