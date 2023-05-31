@@ -1,33 +1,34 @@
 package cs3500.pa03.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 /**
- * Manual player class. Processes what the user is doing
+ * Ai Player class
  */
-public class ManualPlayer implements Player {
+public class AiPlayer implements Player {
   String playerName;
   int shipsRemaining;
   public Board gameBoard;
+  private ArrayList<ArrayList<CellStatus>> opBoard;
   private List<Ship> playerShips;
   Random rand;
 
   /**
-   * Manual player constructor
+   * Constructor for Ai Player
    *
-   * @param playerName name of the player
+   * @param playerName name of player (for later impl)
    * @param shipsRemaining how many ships are remaining
-   * @param rand random value, used to set seed in testing
+   * @param rand random variable, used to set seed in testing
    */
-  public ManualPlayer(String playerName, int shipsRemaining, Random rand) {
+  public AiPlayer(String playerName, int shipsRemaining, Random rand) {
     this.playerName = playerName;
     this.shipsRemaining = shipsRemaining;
     this.rand = rand;
   }
+
 
   /**
    * Get the player's name.
@@ -40,11 +41,8 @@ public class ManualPlayer implements Player {
   }
 
   /**
-   * Given the specifications for a BattleSalvo board, return a list of ships with their locations
-   * on the board.
-   *
-   * @param height the height of the board, range: [6, 15] inclusive
-   * @param width the width of the board, range: [6, 15] inclusive
+   * @param height         the height of the board, range: [6, 15] inclusive
+   * @param width          the width of the board, range: [6, 15] inclusive
    * @param specifications a map of ship type to the number of occurrences each ship should
    *                       appear on the board
    * @return the placements of each ship on the board
@@ -165,13 +163,8 @@ public class ManualPlayer implements Player {
 
 
 
-
-
   /**
-   * Returns this player's shots on the opponent's board. The number of shots returned should
-   * equal the number of ships on this player's board that have not sunk.
-   *
-   * @return the locations of shots on the opponent's board
+   * @return
    */
   @Override
   public List<Coord> takeShots() {
@@ -179,66 +172,28 @@ public class ManualPlayer implements Player {
   }
 
   /**
-   * Given the list of shots the opponent has fired on this player's board, report which
-   * shots hit a ship on this player's board.
-   *
    * @param opponentShotsOnBoard the opponent's shots on this player's board
-   * @return a filtered list of the given shots that contain all locations of shots that hit a
-   ship on this board
+   * @return
    */
   @Override
   public List<Coord> reportDamage(List<Coord> opponentShotsOnBoard) {
-    ArrayList<Coord> damageResult = new ArrayList<>();
-    for (Ship s : playerShips) {
-      for (Coord c : opponentShotsOnBoard) {
-        for (Coord shipC : s.location) {
-          if (shipC.getX() == (c.getX()) && shipC.getY() == c.getY()) {
-            damageResult.add(c);
-            s.getSalvoDamage(new ArrayList<>(Arrays.asList(c)));
-          }
-        }
-      }
-    }
-    fleetIsFloating();
-    return damageResult;
+    return null;
   }
 
   /**
-   * updates shipsRemaining variable
-   */
-  private void fleetIsFloating() {
-    for (Ship s : playerShips) {
-      if (!s.isFloating()) {
-        shipsRemaining -= 1;
-      }
-    }
-  }
-
-  /**
-   * Reports to this player what shots in their previous volley returned from takeShots()
-   * successfully hit an opponent's ship.
-   *
    * @param shotsThatHitOpponentShips the list of shots that successfully hit the opponent's ships
    */
   @Override
   public void successfulHits(List<Coord> shotsThatHitOpponentShips) {
-    System.out.println("Shots that hit opponent: ");
-    for (Coord c : shotsThatHitOpponentShips) {
-      System.out.println("X: " + c.getX() + " Y: " + c.getY());
-    }
 
   }
 
   /**
-   * Notifies the player that the game is over.
-   * Win, lose, and draw should all be supported
-   *
    * @param result if the player has won, lost, or forced a draw
    * @param reason the reason for the game ending
    */
   @Override
   public void endGame(GameResult result, String reason) {
-    // TODO
-    return;
+
   }
 }
