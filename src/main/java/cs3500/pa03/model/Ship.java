@@ -9,7 +9,7 @@ import java.util.List;
 public class Ship {
 
   final ShipType type;
-  public List<Coord> location;
+  final private List<Coord> location;
   private List<Coord> salvoDamage = new ArrayList<>();
   private List<Coord> damagedCells = new ArrayList<>(); //Do not make final
 
@@ -34,7 +34,7 @@ public class Ship {
         damagedCells.add(c);
         for (Coord l : location) {
           if (l.getX() == c.getX() && l.getY() == c.getY()) {
-            l.status = CellStatus.HIT_;
+            l.changeStatus(CellStatus.HIT_);
           }
         }
       }
@@ -51,6 +51,11 @@ public class Ship {
     updateDamage();
   }
 
+  /**
+   * Gets the damaged cells of a ship
+   *
+   * @return a list of coords
+   */
   public List<Coord> getTotalDamage() {
     return damagedCells;
   }
@@ -62,13 +67,22 @@ public class Ship {
    */
   public boolean isFloating() {
     for (Coord c : location) {
-      if (c.status.toString().equals("SHIP")) {
+      if (c.getStatus().toString().equals("SHIP")) {
         return true;
       }
     }
     return false;
   }
 
+  /**
+   * getter for the location of a ship. this is needed because the game needs to know
+   * the location of every single ship
+   *
+   * @return a list of coord
+   */
+  public List<Coord> getLocation() {
+    return this.location;
+  }
 
 
 }

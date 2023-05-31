@@ -55,7 +55,7 @@ public class AiPlayer implements Player {
     for (int i = 0; i < specifications.get(ShipType.CARRIER); i += 1) {
       Ship newShip = placeShip(6, tempBoard);
       result.add(newShip);
-      List<Coord> newLocation = newShip.location;
+      List<Coord> newLocation = newShip.getLocation();
       for (Coord coord : newLocation) {
         tempBoard.get(coord.getY()).set(coord.getX(), CellStatus.SHIP);
       }
@@ -63,7 +63,7 @@ public class AiPlayer implements Player {
     for (int i = 0; i < specifications.get(ShipType.BATTLESHIP); i += 1) {
       Ship newShip = placeShip(5, tempBoard);
       result.add(newShip);
-      List<Coord> newLocation = newShip.location;
+      List<Coord> newLocation = newShip.getLocation();
       for (Coord coord : newLocation) {
         tempBoard.get(coord.getY()).set(coord.getX(), CellStatus.SHIP);
       }
@@ -71,7 +71,7 @@ public class AiPlayer implements Player {
     for (int i = 0; i < specifications.get(ShipType.DESTROYER); i += 1) {
       Ship newShip = placeShip(4, tempBoard);
       result.add(newShip);
-      List<Coord> newLocation = newShip.location;
+      List<Coord> newLocation = newShip.getLocation();
       for (Coord coord : newLocation) {
         tempBoard.get(coord.getY()).set(coord.getX(), CellStatus.SHIP);
       }
@@ -79,7 +79,7 @@ public class AiPlayer implements Player {
     for (int i = 0; i < specifications.get(ShipType.SUBMARINE); i += 1) {
       Ship newShip = placeShip(3, tempBoard);
       result.add(newShip);
-      List<Coord> newLocation = newShip.location;
+      List<Coord> newLocation = newShip.getLocation();
       for (Coord coord : newLocation) {
         tempBoard.get(coord.getY()).set(coord.getX(), CellStatus.SHIP);
       }

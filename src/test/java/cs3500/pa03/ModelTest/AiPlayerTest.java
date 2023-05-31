@@ -7,6 +7,7 @@ import cs3500.pa03.model.CellStatus;
 import cs3500.pa03.model.Coord;
 import cs3500.pa03.model.ManualPlayer;
 import cs3500.pa03.model.ShipType;
+import cs3500.pa03.model.Shots;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -42,6 +43,9 @@ public class AiPlayerTest {
   List<Coord> shotCoords;
   List<Coord> sinkCarrier;
 
+  int[][] salvoArray = new int[][] {{1, 2}, {3, 4}, {5, 6}};
+  Shots salvo;
+
 
 
   /**
@@ -49,6 +53,7 @@ public class AiPlayerTest {
    */
   @BeforeEach
   public void setUp() {
+
     name = "Ai";
     specifications = new HashMap<>();
     specifications.put(ShipType.CARRIER, 1);
@@ -61,11 +66,13 @@ public class AiPlayerTest {
 
     height = 8;
     width = 9;
-
-    playerManual = new ManualPlayer("player", shipsRemaining, new Random(8));
+    salvo = new Shots(playerManual);
+    playerManual = new ManualPlayer("player", shipsRemaining, new Random(8), salvo);
     playerManual.setup(height, width, specifications);
 
     player = new AiPlayer(name, shipsRemaining, new Random(8));
+    salvo.setSalvo(salvoArray);
+
 
 
     specificationsMax = new HashMap<>();
@@ -80,7 +87,7 @@ public class AiPlayerTest {
 
     heightMax = 16;
     widthMax = 16;
-    manPlayerMax = new ManualPlayer("player", shipsRemaining, new Random(5));
+    manPlayerMax = new ManualPlayer("player", shipsRemaining, new Random(5), salvo);
     manPlayerMax.setup(height, width, specifications);
 
     playerMax = new AiPlayer(name, shipsRemainingMax, new Random(9));
@@ -97,7 +104,7 @@ public class AiPlayerTest {
 
     heightMin = 6;
     widthMin = 6;
-    manPlayerMin = new ManualPlayer("player", shipsRemaining, new Random(12));
+    manPlayerMin = new ManualPlayer("player", shipsRemaining, new Random(12), salvo);
     manPlayerMin.setup(height, width, specifications);
     playerMin = new AiPlayer(name, shipsRemainingMin, new Random(10));
 

@@ -6,9 +6,9 @@ package cs3500.pa03.model;
  */
 public class Coord {
 
-  public int x;
-  public int y;
-  public CellStatus status;
+  private int x;
+  private int y;
+  private CellStatus status;
 
   /**
    * Constructor for Coord class
@@ -47,6 +47,10 @@ public class Coord {
    */
   public CellStatus getStatus() {
     return this.status;
+  }
+
+  public void changeStatus(CellStatus c) {
+    status = c;
   }
 
 }

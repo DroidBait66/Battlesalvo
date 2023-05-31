@@ -10,11 +10,13 @@ import java.util.Random;
  * Manual player class. Processes what the user is doing
  */
 public class ManualPlayer implements Player {
-  String playerName;
-  int shipsRemaining;
+  final private String playerName;
+  private int shipsRemaining;
   public Board gameBoard;
+  private ArrayList<ArrayList<CellStatus>> opBoard; // DELETE
   private List<Ship> playerShips;
-  Random rand;
+  Shots salvos;
+  private Random rand;
 
   /**
    * Manual player constructor
@@ -22,11 +24,14 @@ public class ManualPlayer implements Player {
    * @param playerName name of the player
    * @param shipsRemaining how many ships are remaining
    * @param rand random value, used to set seed in testing
+   * @param salvos instance of Shots class
    */
-  public ManualPlayer(String playerName, int shipsRemaining, Random rand) {
+  public ManualPlayer(String playerName, int shipsRemaining, Random rand, Shots salvos) {
     this.playerName = playerName;
     this.shipsRemaining = shipsRemaining;
     this.rand = rand;
+    this.salvos = salvos;
+
   }
 
   /**
@@ -51,13 +56,14 @@ public class ManualPlayer implements Player {
    */
   @Override
   public List<Ship> setup(int height, int width, Map<ShipType, Integer> specifications) {
+    salvos.setRemainingShips(shipsRemaining);
     List<Ship> result = new ArrayList<>();
     ArrayList<ArrayList<CellStatus>> tempBoard = createBoard(height, width);
 
     for (int i = 0; i < specifications.get(ShipType.CARRIER); i += 1) {
       Ship newShip = placeShip(6, tempBoard);
       result.add(newShip);
-      List<Coord> newLocation = newShip.location;
+      List<Coord> newLocation = newShip.getLocation();
       for (Coord coord : newLocation) {
         tempBoard.get(coord.getY()).set(coord.getX(), CellStatus.SHIP);
       }
@@ -65,7 +71,7 @@ public class ManualPlayer implements Player {
     for (int i = 0; i < specifications.get(ShipType.BATTLESHIP); i += 1) {
       Ship newShip = placeShip(5, tempBoard);
       result.add(newShip);
-      List<Coord> newLocation = newShip.location;
+      List<Coord> newLocation = newShip.getLocation();
       for (Coord coord : newLocation) {
         tempBoard.get(coord.getY()).set(coord.getX(), CellStatus.SHIP);
       }
@@ -73,7 +79,7 @@ public class ManualPlayer implements Player {
     for (int i = 0; i < specifications.get(ShipType.DESTROYER); i += 1) {
       Ship newShip = placeShip(4, tempBoard);
       result.add(newShip);
-      List<Coord> newLocation = newShip.location;
+      List<Coord> newLocation = newShip.getLocation();
       for (Coord coord : newLocation) {
         tempBoard.get(coord.getY()).set(coord.getX(), CellStatus.SHIP);
       }
@@ -81,7 +87,7 @@ public class ManualPlayer implements Player {
     for (int i = 0; i < specifications.get(ShipType.SUBMARINE); i += 1) {
       Ship newShip = placeShip(3, tempBoard);
       result.add(newShip);
-      List<Coord> newLocation = newShip.location;
+      List<Coord> newLocation = newShip.getLocation();
       for (Coord coord : newLocation) {
         tempBoard.get(coord.getY()).set(coord.getX(), CellStatus.SHIP);
       }
@@ -175,8 +181,12 @@ public class ManualPlayer implements Player {
    */
   @Override
   public List<Coord> takeShots() {
-    return null;
+    return salvos.getSalvo();
   }
+
+
+
+
 
   /**
    * Given the list of shots the opponent has fired on this player's board, report which
@@ -191,7 +201,7 @@ public class ManualPlayer implements Player {
     ArrayList<Coord> damageResult = new ArrayList<>();
     for (Ship s : playerShips) {
       for (Coord c : opponentShotsOnBoard) {
-        for (Coord shipC : s.location) {
+        for (Coord shipC : s.getLocation()) {
           if (shipC.getX() == (c.getX()) && shipC.getY() == c.getY()) {
             damageResult.add(c);
             s.getSalvoDamage(new ArrayList<>(Arrays.asList(c)));
@@ -199,19 +209,20 @@ public class ManualPlayer implements Player {
         }
       }
     }
-    fleetIsFloating();
+    salvos.setRemainingShips(shipsLeft());
     return damageResult;
   }
 
   /**
    * updates shipsRemaining variable
    */
-  private void fleetIsFloating() {
+  private int shipsLeft() {
     for (Ship s : playerShips) {
       if (!s.isFloating()) {
         shipsRemaining -= 1;
       }
     }
+    return shipsRemaining;
   }
 
   /**
@@ -239,6 +250,5 @@ public class ManualPlayer implements Player {
   @Override
   public void endGame(GameResult result, String reason) {
     // TODO
-    return;
   }
 }

@@ -6,6 +6,7 @@ import cs3500.pa03.model.CellStatus;
 import cs3500.pa03.model.Coord;
 import cs3500.pa03.model.ManualPlayer;
 import cs3500.pa03.model.ShipType;
+import cs3500.pa03.model.Shots;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,6 +45,10 @@ public class ManualPlayerTest {
   List<Coord> sinkCarrier;
 
 
+  int[][] salvoArray = new int[][] {{1, 2}, {3, 4}, {5, 6}};
+  Shots salvo;
+
+
   /**
    * Set up for ManualPlayer
    */
@@ -61,8 +66,11 @@ public class ManualPlayerTest {
 
     height = 8;
     width = 9;
+    salvo = new Shots(player);
 
-    player = new ManualPlayer(name, shipsRemaining, new Random(8));
+    player = new ManualPlayer(name, shipsRemaining, new Random(8), salvo);
+    salvo.setSalvo(salvoArray);
+
 
 
     specificationsMax = new HashMap<>();
@@ -77,7 +85,7 @@ public class ManualPlayerTest {
 
     heightMax = 16;
     widthMax = 16;
-    playerMax = new ManualPlayer(name, shipsRemainingMax, new Random());
+    playerMax = new ManualPlayer(name, shipsRemainingMax, new Random(), salvo);
 
     specificationsMin = new HashMap<>();
     specificationsMin.put(ShipType.CARRIER, 1);
@@ -91,7 +99,7 @@ public class ManualPlayerTest {
 
     heightMin = 6;
     widthMin = 6;
-    playerMin = new ManualPlayer(name, shipsRemainingMin, new Random());
+    playerMin = new ManualPlayer(name, shipsRemainingMin, new Random(), salvo);
 
     // player carrier coords: 2,7 3,7 4,7 5,7 ,6,7 7,7
 
@@ -188,6 +196,9 @@ public class ManualPlayerTest {
   @Test
   public void testReportDamage() {
     player.setup(height, width, specifications);
+
+    assertEquals(6, salvo.getRemainingShips());
+
     List<Coord> firstSalvo = player.reportDamage(shotCoords);
     assertEquals(2, firstSalvo.get(0).getX());
     assertEquals(7, firstSalvo.get(0).getY());
@@ -203,6 +214,27 @@ public class ManualPlayerTest {
     for (int i = 0; i < 6; i += 1) {
       assertEquals(7, secondSalvo.get(i).getY());
     }
+
+    assertEquals(5, salvo.getRemainingShips());
+  }
+
+
+  @Test
+  public void testTakeSalvo() {
+    player.setup(height, width, specifications);
+
+    assertEquals(1, player.takeShots().get(0).getX());
+    assertEquals(2, player.takeShots().get(0).getY());
+    assertEquals(3, player.takeShots().get(1).getX());
+    assertEquals(4, player.takeShots().get(1).getY());
+    assertEquals(5, player.takeShots().get(2).getX());
+    assertEquals(6, player.takeShots().get(2).getY());
+    assertEquals(CellStatus.EMPT, player.takeShots().get(0).getStatus());
+    assertEquals(CellStatus.EMPT, player.takeShots().get(1).getStatus());
+    assertEquals(CellStatus.EMPT, player.takeShots().get(2).getStatus());
+
+
+
   }
 
 }
