@@ -179,7 +179,10 @@ public class AiPlayer implements Player {
     List<Coord> output = new ArrayList<>();
     ArrayList<Coord> prevHits = findHit();
     if (prevHits.size() < 0) {  ///////  MAKE > 0 -------------------------------
-      for (int i = 0; i < shotsLeft; i += 1) {
+      int count = 0;
+      while (count < shotsLeft) {
+        int i = count;
+        if (i >= prevHits.size()) { i = count - prevHits.size(); }
 
       }
     } else {

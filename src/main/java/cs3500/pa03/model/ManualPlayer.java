@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class ManualPlayer implements Player {
 
-  final private String playerName;
+  private String playerName;
   private int shipsRemaining;
   public Board gameBoard;
   private ArrayList<ArrayList<CellStatus>> opBoard; // DELETE
