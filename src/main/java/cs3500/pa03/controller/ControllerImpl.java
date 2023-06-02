@@ -65,11 +65,10 @@ public class ControllerImpl implements Controller {
 
   /**
    * used to create the specs hashmap. player selects fleet
-   *
-   * @param maxShips max number of ships avaliable
    */
   @Override
-  public void fleetSelection(int maxShips) {
+  public void fleetSelection() {
+    int maxShips = Math.min(height, width);
     PlayGame pickFleet = new PlayGameImpl(System.out);
     pickFleet.fleetSelection(maxShips);
 
@@ -85,7 +84,7 @@ public class ControllerImpl implements Controller {
     if (playerShipsRemaining > maxShips
         || numShips[0] == 0 || numShips[1] == 0 || numShips[2] == 0 || numShips[3] == 0) {
       new PlayGameImpl(System.out).invalidFleet();
-      fleetSelection(maxShips);
+      fleetSelection();
     } else {
       specs.put(ShipType.CARRIER, numShips[0]);
       specs.put(ShipType.BATTLESHIP, numShips[1]);

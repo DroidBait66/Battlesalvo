@@ -13,10 +13,8 @@ public interface Controller {
 
   /**
    * used to create the specs hashmap. player selects fleet
-   *
-   * @param maxShips max number of ships avaliable
    */
-  void fleetSelection(int maxShips);
+  void fleetSelection();
 
   /**
    * Gets the max number of ships allowed. needed to make fleetSelection work

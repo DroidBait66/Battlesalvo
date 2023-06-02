@@ -1,39 +1,13 @@
 package cs3500.pa03.controllertest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import cs3500.pa03.controller.Controller;
-import cs3500.pa03.controller.ControllerImpl;
+import cs3500.pa03.controller.RunGame;
 import java.io.ByteArrayInputStream;
 import org.junit.jupiter.api.Test;
 
-/**
- * test for the implementation of the controller
- */
-public class ControllerImplTest {
-
-
-  /**
-   * Tests the getMaxShips helper method
-   */
-  @Test
-  public void testGetMaxShips() {
-
-    String userInput = "1 22 7 9";
-    ByteArrayInputStream inputAsByte = new ByteArrayInputStream(userInput.getBytes());
-    System.setIn(inputAsByte);
-    Controller cont = new ControllerImpl();
-
-    cont.start();
-
-    assertEquals(7, cont.getMaxShips());
-
-  }
-
+public class RunGameTest {
 
   @Test
-  public void testIsGameOver() {
+  public void testRun() {
     /*
     1 incorrect size
     2 correct size
@@ -56,21 +30,9 @@ public class ControllerImplTest {
         System.lineSeparator());
     ByteArrayInputStream inputAsByte2 = new ByteArrayInputStream(userInput2.getBytes());
     System.setIn(inputAsByte2);
-    Controller cont = new ControllerImpl();
-    cont.start();
-    cont.fleetSelection();
-    cont.boardCreation();
-    while (!cont.isGameOver()) {
-      cont.getPlayerSalvo();
-      cont.printSalvos();
-    }
-    cont.gameResult();
-    assertTrue(cont.isGameOver());
+
+    RunGame game = new RunGame();
+    game.run();
 
   }
-
-
-
-
-
 }
