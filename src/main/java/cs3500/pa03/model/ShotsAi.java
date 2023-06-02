@@ -3,6 +3,9 @@ package cs3500.pa03.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that implements dependency injection for Ai player
+ */
 public class ShotsAi {
   private int ships;
   private ArrayList<ArrayList<CellStatus>> opBoard;
@@ -11,7 +14,12 @@ public class ShotsAi {
   private int emptySpaces;
   private Board board;
 
-
+  /**
+   * setter for how many shots missed
+   *
+   * @param allShots all fired shots
+   * @param hit all shots that hit
+   */
   public void setMissedShots(List<Coord> allShots, ArrayList<Coord> hit) {
     ArrayList<Coord> temp = new ArrayList<>();
     for (Coord all : allShots) {
@@ -28,13 +36,12 @@ public class ShotsAi {
 
 
 
-//Maybe delete
   /**
    * Tells what the maximum possible shots for the player is
    *
    * @param opponentBoard current state of opponent board, used to see the empty spaces there are
    */
-  public void setOpponentEmpty(Board opponentBoard) {
+  public void setOpBoard(Board opponentBoard) {
     opBoard = opponentBoard.getOpponentBoard(opponentBoard.getBoard());
     emptySpaces = 0;
     for (ArrayList<CellStatus> row : opBoard) {
@@ -46,25 +53,23 @@ public class ShotsAi {
     }
   }
 
+  /**
+   * limits the amount of shots a player can take
+   *
+   * @return smaller int between ships and emptySpaces
+   */
+  public int limitShots() {
+    return Math.min(ships, emptySpaces);
+  }
+
+
   // Maybe delete
   public ArrayList<ArrayList<CellStatus>> getOpBoard() {
     return opBoard;
   }
 
-  // Maybe delete
-  public void setOpBoard(Board opponentBoard) {
-    opBoard = opponentBoard.getOpponentBoard(opponentBoard.getBoard());
-  }
 
-  // Maybe delete
-  /**
-   * getter to check how many empty spaces the opponent has
-   *
-   * @return integer of empty spaces
-   */
-  public int getEmptySpaces() {
-    return emptySpaces;
-  }
+
 
 
   /**

@@ -9,9 +9,9 @@ import java.util.List;
 public class Ship {
 
   final ShipType type;
-  final private List<Coord> location;
+  private final List<Coord> location;
   private List<Coord> salvoDamage = new ArrayList<>();
-  private List<Coord> damagedCells = new ArrayList<>(); //Do not make final
+  private final List<Coord> damagedCells = new ArrayList<>(); //Do not make final
 
   /**
    * Constructor for Class Ship

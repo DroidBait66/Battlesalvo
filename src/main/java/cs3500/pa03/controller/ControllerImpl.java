@@ -16,9 +16,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * Controller class
+ */
 public class ControllerImpl implements Controller {
 
-  private HashMap<ShipType, Integer> specs = new HashMap<>();
+  private final HashMap<ShipType, Integer> specs = new HashMap<>();
   private ManualPlayer player1;
   private AiPlayer player2;
 
@@ -28,8 +31,8 @@ public class ControllerImpl implements Controller {
   private int aiShipsRemaining;
   private List<Ship> playerShips;
   private List<Ship> aiShips;
-  private Shots playerSalvos = new Shots();
-  private ShotsAi aiSalvos = new ShotsAi();
+  private final Shots playerSalvos = new Shots();
+  private final ShotsAi aiSalvos = new ShotsAi();
   Scanner scanner = new Scanner(System.in);
 
   private List<Coord> playerShots;
@@ -79,8 +82,8 @@ public class ControllerImpl implements Controller {
       count += 1;
     }
     playerShipsRemaining = numShips[0] + numShips[1] + numShips[2] + numShips[3];
-    if (playerShipsRemaining > maxShips ||
-        numShips[0] == 0 || numShips[1] == 0 || numShips[2] == 0 || numShips[3] == 0) {
+    if (playerShipsRemaining > maxShips
+        || numShips[0] == 0 || numShips[1] == 0 || numShips[2] == 0 || numShips[3] == 0) {
       new PlayGameImpl(System.out).invalidFleet();
       fleetSelection(maxShips);
     } else {
@@ -127,6 +130,9 @@ public class ControllerImpl implements Controller {
 
   }
 
+  /**
+   * Gets the players salvo via user input and also calls the Ai players salvo
+   */
   @Override
   public void getPlayerSalvo() {
     playerSalvos.setOpponentEmpty(aiSalvos.boardGetter());
@@ -152,11 +158,8 @@ public class ControllerImpl implements Controller {
     } else {
       playerSalvos.setSalvo(salvoInput);
       playerShots = player1.takeShots();
-      aiSalvos.setOpponentEmpty(playerSalvos.boardGetter());
+      aiSalvos.setOpBoard(playerSalvos.boardGetter());
       aiShots = player2.takeShots();
-      for (Coord c : playerShots) {
-        System.out.println(c.getX() + " " + c.getY());
-      }
       if (!validHits(playerShots)) {
         new PlayGameImpl(System.out).salvoFail();
         getPlayerSalvo();
@@ -164,6 +167,12 @@ public class ControllerImpl implements Controller {
     }
   }
 
+  /**
+   * Determines if a hit is valid or not
+   *
+   * @param list list of coords to be checked
+   * @return boolean true or false
+   */
   private boolean validHits(List<Coord> list) {
     for (Coord c : list) {
       if (c.getStatus().equals(CellStatus.HIT_) || c.getStatus().equals(CellStatus.MISS)) {
@@ -181,10 +190,13 @@ public class ControllerImpl implements Controller {
     return true;
   }
 
+  /**
+   * displays the shots of both players and updates/calls the board
+   */
   @Override
   public void printSalvos() {
     PlayGame playGame = new PlayGameImpl(System.out);
-    playGame.displayShots(player2.reportDamage(playerShots),aiSalvos.getMissedShots(),
+    playGame.displayShots(player2.reportDamage(playerShots), aiSalvos.getMissedShots(),
         player1.reportDamage(aiShots));
     playGame.displayGameBoard(playerSalvos.boardGetter(), aiSalvos.boardGetter());
 
@@ -196,6 +208,9 @@ public class ControllerImpl implements Controller {
 
   }
 
+  /**
+   * Displays the result of the game
+   */
   @Override
   public void gameResult() {
     PlayGame playGame = new PlayGameImpl(System.out);

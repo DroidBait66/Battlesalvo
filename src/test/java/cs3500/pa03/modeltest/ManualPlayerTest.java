@@ -1,9 +1,8 @@
-package cs3500.pa03.ModelTest;
+package cs3500.pa03.modeltest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cs3500.pa03.model.AiPlayer;
-import cs3500.pa03.model.Board;
 import cs3500.pa03.model.CellStatus;
 import cs3500.pa03.model.Coord;
 import cs3500.pa03.model.ManualPlayer;
@@ -205,9 +204,6 @@ public class ManualPlayerTest {
   @Test
   public void testReportDamage() {
     player.setup(height, width, specifications);
-    for (int i = 0; i < 8; i += 1) { System.out.println(salvo.boardGetter().getBoard().get(i)); }
-    System.out.println("BREAK");
-
 
     assertEquals(6, salvo.getRemainingShips());
 
@@ -226,7 +222,7 @@ public class ManualPlayerTest {
     for (int i = 0; i < 6; i += 1) {
       assertEquals(7, secondSalvo.get(i).getY());
     }
-    for (int i = 0; i < 8; i += 1) { System.out.println(salvo.boardGetter().getBoard().get(i)); }
+
 
     assertEquals(5, salvo.getRemainingShips());
   }
@@ -250,7 +246,7 @@ public class ManualPlayerTest {
   }
 
   @Test
-  public void testGetSuccessful () {
+  public void testGetSuccessful() {
     player.setup(height, width, specifications);
     playerAi.setup(height, width, specifications);
     List<Coord> firstSalvo = player.reportDamage(shotCoords);

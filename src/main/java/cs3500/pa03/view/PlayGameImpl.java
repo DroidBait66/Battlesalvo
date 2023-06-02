@@ -88,7 +88,7 @@ public class PlayGameImpl implements PlayGame {
    */
   @Override
   public void displayGameBoard(Board player, Board ai) {
-   ArrayList<ArrayList<CellStatus>> playerBoard = player.getBoard();
+    ArrayList<ArrayList<CellStatus>> playerBoard = player.getBoard();
     ArrayList<ArrayList<CellStatus>> aiBoard = ai.getOpponentBoard(ai.getBoard());
 
     String aiString = "";

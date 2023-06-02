@@ -1,4 +1,4 @@
-package cs3500.pa03.ModelTest;
+package cs3500.pa03.modeltest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

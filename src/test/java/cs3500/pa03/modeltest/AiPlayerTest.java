@@ -1,4 +1,4 @@
-package cs3500.pa03.ModelTest;
+package cs3500.pa03.modeltest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -247,24 +247,24 @@ public class AiPlayerTest {
   public void testTakeShots() {
     player.setup(height, width, specifications);
     salvo1.setOpBoard(salvo.boardGetter());
-    assertEquals(8,player.takeShots().get(0).getX());
-    assertEquals(4,player.takeShots().get(1).getX());
-    assertEquals(4,player.takeShots().get(2).getX());
-    assertEquals(0,player.takeShots().get(3).getX());
-    assertEquals(0,player.takeShots().get(4).getX());
-    assertEquals(5,player.takeShots().get(5).getX());
-    assertEquals(4,player.takeShots().get(0).getY());
-    assertEquals(6,player.takeShots().get(1).getY());
-    assertEquals(0,player.takeShots().get(2).getY());
-    assertEquals(4,player.takeShots().get(3).getY());
-    assertEquals(0,player.takeShots().get(4).getY());
-    assertEquals(6,player.takeShots().get(5).getY());
-    assertEquals(CellStatus.EMPT,player.takeShots().get(0).getStatus());
-    assertEquals(CellStatus.EMPT,player.takeShots().get(1).getStatus());
-    assertEquals(CellStatus.EMPT,player.takeShots().get(2).getStatus());
-    assertEquals(CellStatus.EMPT,player.takeShots().get(3).getStatus());
-    assertEquals(CellStatus.EMPT,player.takeShots().get(4).getStatus());
-    assertEquals(CellStatus.EMPT,player.takeShots().get(5).getStatus());
+    assertEquals(8, player.takeShots().get(0).getX());
+    assertEquals(4, player.takeShots().get(1).getX());
+    assertEquals(4, player.takeShots().get(2).getX());
+    assertEquals(0, player.takeShots().get(3).getX());
+    assertEquals(0, player.takeShots().get(4).getX());
+    assertEquals(5, player.takeShots().get(5).getX());
+    assertEquals(4, player.takeShots().get(0).getY());
+    assertEquals(6, player.takeShots().get(1).getY());
+    assertEquals(0, player.takeShots().get(2).getY());
+    assertEquals(4, player.takeShots().get(3).getY());
+    assertEquals(0, player.takeShots().get(4).getY());
+    assertEquals(6, player.takeShots().get(5).getY());
+    assertEquals(CellStatus.EMPT, player.takeShots().get(0).getStatus());
+    assertEquals(CellStatus.EMPT, player.takeShots().get(1).getStatus());
+    assertEquals(CellStatus.EMPT, player.takeShots().get(2).getStatus());
+    assertEquals(CellStatus.EMPT, player.takeShots().get(3).getStatus());
+    assertEquals(CellStatus.EMPT, player.takeShots().get(4).getStatus());
+    assertEquals(CellStatus.EMPT, player.takeShots().get(5).getStatus());
 
   }
 

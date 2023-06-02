@@ -41,7 +41,6 @@ public class Shots {
 
 
 
-//Maybe delete
   /**
    * Tells what the maximum possible shots for the player is
    *

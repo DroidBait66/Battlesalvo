@@ -6,8 +6,8 @@ package cs3500.pa03.model;
  */
 public class Coord {
 
-  private int x;
-  private int y;
+  private final int xcoord;
+  private final int ycoord;
   private CellStatus status;
 
   /**
@@ -17,8 +17,8 @@ public class Coord {
    * @param y is the Y coord of the cell
    */
   public Coord(int x, int y, CellStatus status) {
-    this.x = x;
-    this.y = y;
+    this.xcoord = x;
+    this.ycoord = y;
     this.status = status;
   }
 
@@ -28,7 +28,7 @@ public class Coord {
    * @return x coord of cell
    */
   public int getX() {
-    return this.x;
+    return this.xcoord;
   }
 
   /**
@@ -37,7 +37,7 @@ public class Coord {
    * @return y coord of cell
    */
   public int getY() {
-    return this.y;
+    return this.ycoord;
   }
 
   /**

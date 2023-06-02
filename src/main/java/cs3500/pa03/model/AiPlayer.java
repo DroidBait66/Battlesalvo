@@ -16,7 +16,7 @@ public class AiPlayer implements Player {
   private ArrayList<ArrayList<CellStatus>> opBoard;
   private List<Ship> aiShips;
   Random rand;
-  private ShotsAi salvoAi;
+  private final ShotsAi salvoAi;
 
   /**
    * Constructor for Ai Player
@@ -176,7 +176,7 @@ public class AiPlayer implements Player {
   @Override
   public List<Coord> takeShots() {
     opBoard = salvoAi.getOpBoard();
-    int shotsLeft = shipsRemaining;
+    int shotsLeft = salvoAi.limitShots();
     List<Coord> output = new ArrayList<>();
 
     for (int i = 0; i < shotsLeft; i += 1) {
@@ -193,6 +193,13 @@ public class AiPlayer implements Player {
     }
     return true;
   }
+
+  /**
+   * randomly finds a hit
+   *
+   * @param exclude list of coords that cannot be picked
+   * @return a random coord
+   */
   private Coord randomHit(List<Coord> exclude) {
     int x = rand.nextInt(opBoard.get(0).size());
     int y = rand.nextInt(opBoard.size());
@@ -204,11 +211,12 @@ public class AiPlayer implements Player {
     }
   }
 
-    /**
-     * @param opponentShotsOnBoard the opponent's shots on this player's board
-     *
-     * @return a list of Coords where the opponent damaged ships
-     */
+  /**
+   * reports damage done by opponent
+   *
+   * @param opponentShotsOnBoard the opponent's shots on this player's board
+   * @return a list of Coords where the opponent damaged ships
+   */
   @Override
   public List<Coord> reportDamage(List<Coord> opponentShotsOnBoard) {
     ArrayList<Coord> damageResult = new ArrayList<>();
@@ -246,6 +254,8 @@ public class AiPlayer implements Player {
   }
 
   /**
+   * reports successful hits
+   *
    * @param shotsThatHitOpponentShips the list of shots that successfully hit the opponent's ships
    */
   @Override
