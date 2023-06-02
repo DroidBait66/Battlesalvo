@@ -2,11 +2,14 @@ package cs3500.pa03.ModelTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import cs3500.pa03.model.AiPlayer;
+import cs3500.pa03.model.Board;
 import cs3500.pa03.model.CellStatus;
 import cs3500.pa03.model.Coord;
 import cs3500.pa03.model.ManualPlayer;
 import cs3500.pa03.model.ShipType;
 import cs3500.pa03.model.Shots;
+import cs3500.pa03.model.ShotsAi;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,10 +46,12 @@ public class ManualPlayerTest {
 
   List<Coord> shotCoords;
   List<Coord> sinkCarrier;
+  ShotsAi aiSalvo;
 
 
   int[][] salvoArray = new int[][] {{1, 2}, {3, 4}, {5, 6}};
   Shots salvo;
+  AiPlayer playerAi;
 
 
   /**
@@ -70,6 +75,10 @@ public class ManualPlayerTest {
 
     player = new ManualPlayer(name, shipsRemaining, new Random(8), salvo);
     salvo.setSalvo(salvoArray);
+    aiSalvo = new ShotsAi();
+    playerAi = new AiPlayer(name, shipsRemaining, new Random(8), aiSalvo);
+
+
 
 
 
@@ -132,7 +141,7 @@ public class ManualPlayerTest {
 
     assertEquals(shipsRemaining, player.setup(height, width, specifications).size());
 
-    ArrayList<ArrayList<CellStatus>> test = player.gameBoard.getBoard();
+    ArrayList<ArrayList<CellStatus>> test = salvo.boardGetter().getBoard();
 
     int numberOfShipBlocks = specifications.get(ShipType.CARRIER) * 6
         + specifications.get(ShipType.BATTLESHIP) * 5 + specifications.get(ShipType.DESTROYER) * 4
@@ -150,7 +159,7 @@ public class ManualPlayerTest {
 
     assertEquals(shipsRemainingMax, playerMax.setup(heightMax, widthMax, specificationsMax).size());
 
-    ArrayList<ArrayList<CellStatus>> testMax = playerMax.gameBoard.getBoard();
+    ArrayList<ArrayList<CellStatus>> testMax = salvo.boardGetter().getBoard();
 
     int numberOfShipBlocksMax = specificationsMax.get(ShipType.CARRIER) * 6
         + specificationsMax.get(ShipType.BATTLESHIP) * 5
@@ -169,7 +178,7 @@ public class ManualPlayerTest {
 
     assertEquals(shipsRemainingMin, playerMin.setup(heightMin, widthMin, specificationsMin).size());
 
-    ArrayList<ArrayList<CellStatus>> testMin = playerMin.gameBoard.getBoard();
+    ArrayList<ArrayList<CellStatus>> testMin = salvo.boardGetter().getBoard();
 
     int numberOfShipBlocksMin = specificationsMin.get(ShipType.CARRIER) * 6
         + specificationsMin.get(ShipType.BATTLESHIP) * 5
@@ -196,7 +205,7 @@ public class ManualPlayerTest {
   @Test
   public void testReportDamage() {
     player.setup(height, width, specifications);
-    for (int i = 0; i < 8; i += 1) { System.out.println(player.gameBoard.getBoard().get(i)); }
+    for (int i = 0; i < 8; i += 1) { System.out.println(salvo.boardGetter().getBoard().get(i)); }
     System.out.println("BREAK");
 
 
@@ -217,14 +226,14 @@ public class ManualPlayerTest {
     for (int i = 0; i < 6; i += 1) {
       assertEquals(7, secondSalvo.get(i).getY());
     }
-    for (int i = 0; i < 8; i += 1) { System.out.println(player.gameBoard.getBoard().get(i)); }
+    for (int i = 0; i < 8; i += 1) { System.out.println(salvo.boardGetter().getBoard().get(i)); }
 
     assertEquals(5, salvo.getRemainingShips());
   }
 
 
   @Test
-  public void testTakeSalvo() {
+  public void testTakeShots() {
     player.setup(height, width, specifications);
 
     assertEquals(1, player.takeShots().get(0).getX());
@@ -236,7 +245,19 @@ public class ManualPlayerTest {
     assertEquals(CellStatus.EMPT, player.takeShots().get(0).getStatus());
     assertEquals(CellStatus.EMPT, player.takeShots().get(1).getStatus());
     assertEquals(CellStatus.EMPT, player.takeShots().get(2).getStatus());
-    System.out.println("Test");
+
+
+  }
+
+  @Test
+  public void testGetSuccessful () {
+    player.setup(height, width, specifications);
+    playerAi.setup(height, width, specifications);
+    List<Coord> firstSalvo = player.reportDamage(shotCoords);
+    salvo.setOpBoard(aiSalvo.boardGetter());
+    player.successfulHits(firstSalvo);
+    ArrayList<ArrayList<CellStatus>> opBoard = aiSalvo.boardGetter().getBoard();
+    assertEquals(CellStatus.HIT_, opBoard.get(2).get(7));
 
 
   }

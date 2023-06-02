@@ -1,6 +1,8 @@
 package cs3500.pa03.controller;
 
 import cs3500.pa03.model.AiPlayer;
+import cs3500.pa03.model.CellStatus;
+import cs3500.pa03.model.Coord;
 import cs3500.pa03.model.ManualPlayer;
 import cs3500.pa03.model.Ship;
 import cs3500.pa03.model.ShipType;
@@ -30,6 +32,8 @@ public class ControllerImpl implements Controller {
   private ShotsAi aiSalvos = new ShotsAi();
   Scanner scanner = new Scanner(System.in);
 
+  private List<Coord> playerShots;
+  private List<Coord> aiShots;
 
 
 
@@ -40,20 +44,15 @@ public class ControllerImpl implements Controller {
    */
   @Override
   public void start() {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    PlayGame playGame = new PlayGameImpl(outputStream);
+    PlayGame playGame = new PlayGameImpl(System.out);
     playGame.introDisplay();
-    String output = outputStream.toString();
-    System.out.println(output);
+
 
     int preHeight = scanner.nextInt();
     int preWidth = scanner.nextInt();
 
     if (Math.min(preHeight, preWidth) < 6 || Math.max(preHeight, preWidth) > 15) {
-      ByteArrayOutputStream outputStream2 = new ByteArrayOutputStream();
-      new PlayGameImpl(outputStream2).invalidDisplay();
-      String output2 = outputStream2.toString();
-      System.out.println(output2);
+      new PlayGameImpl(System.out).invalidDisplay();
       start();
     } else {
       height = preHeight;
@@ -68,11 +67,9 @@ public class ControllerImpl implements Controller {
    */
   @Override
   public void fleetSelection(int maxShips) {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    PlayGame pickFleet = new PlayGameImpl(outputStream);
+    PlayGame pickFleet = new PlayGameImpl(System.out);
     pickFleet.fleetSelection(maxShips);
-    String output = outputStream.toString();
-    System.out.println(output);
+
 
     clearSpecs();
     int count = 0;
@@ -84,6 +81,7 @@ public class ControllerImpl implements Controller {
     playerShipsRemaining = numShips[0] + numShips[1] + numShips[2] + numShips[3];
     if (playerShipsRemaining > maxShips ||
         numShips[0] == 0 || numShips[1] == 0 || numShips[2] == 0 || numShips[3] == 0) {
+      new PlayGameImpl(System.out).invalidFleet();
       fleetSelection(maxShips);
     } else {
       specs.put(ShipType.CARRIER, numShips[0]);
@@ -124,12 +122,57 @@ public class ControllerImpl implements Controller {
     playerShips = player1.setup(height, width, specs);
     aiShips = player2.setup(height, width, specs);
 
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    PlayGame playGame = new PlayGameImpl(outputStream);
-    playGame.displayGameBoard(player1.gameBoard, player2.gameBoard);
-    String output = outputStream.toString();
-    System.out.println(output);
+    PlayGame playGame = new PlayGameImpl(System.out);
+    playGame.displayGameBoard(playerSalvos.boardGetter(), aiSalvos.boardGetter());
 
+  }
+
+  @Override
+  public void getPlayerSalvo() {
+    playerSalvos.setOpponentEmpty(aiSalvos.boardGetter());
+    int limit = playerSalvos.limitShots();
+    PlayGame playGame = new PlayGameImpl(System.out);
+    playGame.askForSalvo(limit);
+
+    int[][] salvoInput = new int[limit][2];
+    int count = 0;
+    int row = 0;
+    while (scanner.hasNextInt() && count < limit * 2) {
+      salvoInput[row][0] = scanner.nextInt();
+      count += 1;
+      salvoInput[row][1] = scanner.nextInt();
+      count += 1;
+      row += 1;
+    }
+
+    if (count < limit * 2 - 1) {
+      new PlayGameImpl(System.out).salvoFail();
+      getPlayerSalvo();
+    } else {
+      playerSalvos.setSalvo(salvoInput);
+      playerShots = player1.takeShots();
+      if (!validHits(playerShots)) {
+        new PlayGameImpl(System.out).salvoFail();
+        getPlayerSalvo();
+      }
+    }
+  }
+
+  private boolean validHits(List<Coord> list) {
+    for (Coord c : list) {
+      if (c.getStatus().equals(CellStatus.HIT_) || c.getStatus().equals(CellStatus.MISS)) {
+        return false;
+      }
+    }
+    for (int i = 1; i < list.size(); i += 1) {
+      for (int j = 0; j < i; j += 1) {
+        if (list.get(i).getX() == (list.get(j).getX())
+            && list.get(i).getY() == (list.get(j).getY())) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   /**
@@ -139,6 +182,8 @@ public class ControllerImpl implements Controller {
   public void runSalvo() {
 
   }
+
+
 
   /**
    * @return

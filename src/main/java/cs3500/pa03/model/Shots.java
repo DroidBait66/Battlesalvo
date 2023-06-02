@@ -12,6 +12,8 @@ public class Shots {
   private ArrayList<ArrayList<CellStatus>> opBoard;
   private int emptySpaces;
 
+  private Board board;
+
 
   /**
    * converts a 2d array of ints into a list of coords (user input into)
@@ -56,12 +58,12 @@ public class Shots {
 
   // Maybe delete
   /**
-   * getter to check how many empty spaces the opponent has
+   * limits the amount of shots a player can take
    *
-   * @return integer of empty spaces
+   * @return smaller int between ships and emptySpaces
    */
-  public int getEmptySpaces() {
-    return emptySpaces;
+  public int limitShots() {
+    return Math.min(ships, emptySpaces);
   }
 
 
@@ -81,5 +83,22 @@ public class Shots {
    */
   public int getRemainingShips() {
     return ships;
+  }
+
+  public void setBoard(Board boards) {
+    this.board = boards;
+  }
+
+  public Board boardGetter() {
+    return this.board;
+  }
+
+  public ArrayList<ArrayList<CellStatus>> getOpBoard() {
+    return opBoard;
+  }
+
+  // Maybe delete
+  public void setOpBoard(Board opponentBoard) {
+    opBoard = opponentBoard.getOpponentBoard(opponentBoard.getBoard());
   }
 }

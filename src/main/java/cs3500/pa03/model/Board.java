@@ -30,7 +30,7 @@ public class Board {
    * @return a board that is updated with misses and hits
    */
   public ArrayList<ArrayList<CellStatus>> updateBoard(List<Coord> allOpShots,
-                                                      ArrayList<Coord> damageCoords) {
+                                                      List<Coord> damageCoords) {
     ArrayList<Coord> missedShots = new ArrayList<>();
     for (Coord allOpShot : allOpShots) {
       if (!damageCoords.contains(allOpShot)) {

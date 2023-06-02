@@ -10,6 +10,8 @@ public interface Controller {
 
   void boardCreation();
 
+  void getPlayerSalvo();
+
   void runSalvo();
 
   boolean isGameOver();

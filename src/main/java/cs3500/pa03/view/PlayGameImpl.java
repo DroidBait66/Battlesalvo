@@ -16,10 +16,10 @@ public class PlayGameImpl implements PlayGame {
   public static final String ANSI_RED = "\u001B[31m";
   public static final String ANSI_GREEN = "\u001B[32m";
 
-  OutputStream stream;
+  PrintStream printStream;
 
   public PlayGameImpl(OutputStream stream) {
-    this.stream = new PrintStream(stream);
+    this.printStream = new PrintStream(stream);
   }
 
   /**
@@ -28,9 +28,8 @@ public class PlayGameImpl implements PlayGame {
   @Override
   public void introDisplay() {
     String welcome = "Hello! Welcome to the OOD BattleSalvo Game! \n"
-        + "Please enter a valid height and width below:";
+        + "Please enter a valid height and width below:\n";
 
-    PrintStream printStream = new PrintStream(stream);
     printStream.print(welcome);
 
   }
@@ -43,7 +42,7 @@ public class PlayGameImpl implements PlayGame {
     String welcomeFail =
         "Oops, the display size is wrong. make sure it is between 6 to 15 (inclusive)\n";
 
-    PrintStream printStream = new PrintStream(stream);
+
     printStream.print(welcomeFail);
 
   }
@@ -54,8 +53,8 @@ public class PlayGameImpl implements PlayGame {
   @Override
   public void fleetSelection(int max) {
     String fleetSelect = "Please enter your fleet in the order [Carrier, Battleship,"
-        + " Destroyer, Submarine].\nRemember, your fleet may not exceed size " + max;
-    PrintStream printStream = new PrintStream(stream);
+        + " Destroyer, Submarine].\nRemember, your fleet may not exceed size " + max + "\n";
+
     printStream.print(fleetSelect);
 
   }
@@ -63,12 +62,10 @@ public class PlayGameImpl implements PlayGame {
   /**
    * called when fleetSlection failed
    *
-   * @param msg reason for fail
    */
   @Override
-  public void invalidFleet(String msg) {
-    String fleetFail = "Uh Oh! You've entered " + msg + ".";
-    PrintStream printStream = new PrintStream(stream);
+  public void invalidFleet() {
+    String fleetFail = "Uh Oh! You've entered invalid fleet.\n";
     printStream.print(fleetFail);
 
   }
@@ -104,7 +101,6 @@ public class PlayGameImpl implements PlayGame {
     }
 
     String output = aiString + "\n\n" + playString;
-    PrintStream printStream = new PrintStream(stream);
     printStream.print(output);
 
   }
@@ -130,11 +126,16 @@ public class PlayGameImpl implements PlayGame {
    */
   @Override
   public void askForSalvo(int shots) {
-    String getSalvo = "Please enter " + shots + " shots: ";
+    String getSalvo = "Please enter " + shots + " shots: \n";
 
-    PrintStream printStream = new PrintStream(stream);
     printStream.print(getSalvo);
 
+  }
+
+  @Override
+  public void salvoFail() {
+    String get = "Incorrect amount of salvos, please try again\n";
+    printStream.print(get);
   }
 
 

@@ -23,14 +23,15 @@ public interface PlayGame {
   /**
    * called when fleetSlection failed
    *
-   * @param msg reason for fail
    */
-  void invalidFleet(String msg);
+  void invalidFleet();
 
 
   public void displayGameBoard(Board player, Board ai);
 
   public void askForSalvo(int shots);
+
+  void salvoFail();
 
   //public void displaySalvoResults(List<Coord> player)
 

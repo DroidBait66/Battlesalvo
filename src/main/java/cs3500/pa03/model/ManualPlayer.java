@@ -13,8 +13,8 @@ public class ManualPlayer implements Player {
 
   private String playerName;
   private int shipsRemaining;
-  public Board gameBoard;
-  private ArrayList<ArrayList<CellStatus>> opBoard; // DELETE
+  private Board gameBoard;
+  private ArrayList<ArrayList<CellStatus>> opBoard;
   private List<Ship> playerShips;
   private Shots salvos;
   private Random rand;
@@ -94,6 +94,7 @@ public class ManualPlayer implements Player {
       }
     }
     gameBoard = new Board(tempBoard);
+    salvos.setBoard(gameBoard);
     playerShips = result;
     return result;
   }
@@ -212,6 +213,7 @@ public class ManualPlayer implements Player {
     }
     salvos.setRemainingShips(shipsLeft());
     gameBoard = new Board(gameBoard.updateBoard(opponentShotsOnBoard, damageResult));
+    salvos.setBoard(gameBoard);
     return damageResult;
   }
 
@@ -237,24 +239,9 @@ public class ManualPlayer implements Player {
    */
   @Override
   public void successfulHits(List<Coord> shotsThatHitOpponentShips) {
-    String phrase = "Shots that hit opponent: \n";
-    for (Coord c : shotsThatHitOpponentShips) {
-      phrase += "X: " + c.getX() + " Y: " + c.getY() + "\n";
-    }
-
-
-
-
-
-    Appendable appendable = new StringBuilder();
-
-
-
-
-   /* System.out.println("Shots that hit opponent: ");
-    for (Coord c : shotsThatHitOpponentShips) {
-      System.out.println("X: " + c.getX() + " Y: " + c.getY());
-    }*/
+    opBoard = salvos.getOpBoard();
+    opBoard = new Board(opBoard).updateBoard(new ArrayList<>(), shotsThatHitOpponentShips);
+    opBoard = new Board(opBoard).getOpponentBoard(opBoard);
 
   }
 

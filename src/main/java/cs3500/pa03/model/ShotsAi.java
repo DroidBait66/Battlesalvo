@@ -6,6 +6,7 @@ public class ShotsAi {
   private int ships;
   private ArrayList<ArrayList<CellStatus>> opBoard;
   private int emptySpaces;
+  private Board board;
 
 
 
@@ -64,5 +65,13 @@ public class ShotsAi {
    */
   public int getRemainingShips() {
     return ships;
+  }
+
+  public void setBoard(Board boards) {
+    this.board = boards;
+  }
+
+  public Board boardGetter() {
+    return board;
   }
 }

@@ -146,7 +146,7 @@ public class AiPlayerTest {
 
     assertEquals(shipsRemaining, player.setup(height, width, specifications).size());
 
-    ArrayList<ArrayList<CellStatus>> test = player.gameBoard.getBoard();
+    ArrayList<ArrayList<CellStatus>> test = salvo1.boardGetter().getBoard();
 
     int numberOfShipBlocks = specifications.get(ShipType.CARRIER) * 6
         + specifications.get(ShipType.BATTLESHIP) * 5 + specifications.get(ShipType.DESTROYER) * 4
@@ -164,7 +164,7 @@ public class AiPlayerTest {
 
     assertEquals(shipsRemainingMax, playerMax.setup(heightMax, widthMax, specificationsMax).size());
 
-    ArrayList<ArrayList<CellStatus>> testMax = playerMax.gameBoard.getBoard();
+    ArrayList<ArrayList<CellStatus>> testMax = salvo2.boardGetter().getBoard();
 
     int numberOfShipBlocksMax = specificationsMax.get(ShipType.CARRIER) * 6
         + specificationsMax.get(ShipType.BATTLESHIP) * 5
@@ -183,7 +183,7 @@ public class AiPlayerTest {
 
     assertEquals(shipsRemainingMin, playerMin.setup(heightMin, widthMin, specificationsMin).size());
 
-    ArrayList<ArrayList<CellStatus>> testMin = playerMin.gameBoard.getBoard();
+    ArrayList<ArrayList<CellStatus>> testMin = salvo3.boardGetter().getBoard();
 
     int numberOfShipBlocksMin = specificationsMin.get(ShipType.CARRIER) * 6
         + specificationsMin.get(ShipType.BATTLESHIP) * 5
@@ -234,8 +234,39 @@ public class AiPlayerTest {
   @Test
   public void testTakeShots() {
     player.setup(height, width, specifications);
-    salvo1.setOpBoard(playerManual.gameBoard);
-    System.out.println(player.takeShots());
+    salvo1.setOpBoard(salvo.boardGetter());
+    assertEquals(8,player.takeShots().get(0).getX());
+    assertEquals(4,player.takeShots().get(1).getX());
+    assertEquals(4,player.takeShots().get(2).getX());
+    assertEquals(0,player.takeShots().get(3).getX());
+    assertEquals(0,player.takeShots().get(4).getX());
+    assertEquals(5,player.takeShots().get(5).getX());
+    assertEquals(4,player.takeShots().get(0).getY());
+    assertEquals(6,player.takeShots().get(1).getY());
+    assertEquals(0,player.takeShots().get(2).getY());
+    assertEquals(4,player.takeShots().get(3).getY());
+    assertEquals(0,player.takeShots().get(4).getY());
+    assertEquals(6,player.takeShots().get(5).getY());
+    assertEquals(CellStatus.EMPT,player.takeShots().get(0).getStatus());
+    assertEquals(CellStatus.EMPT,player.takeShots().get(1).getStatus());
+    assertEquals(CellStatus.EMPT,player.takeShots().get(2).getStatus());
+    assertEquals(CellStatus.EMPT,player.takeShots().get(3).getStatus());
+    assertEquals(CellStatus.EMPT,player.takeShots().get(4).getStatus());
+    assertEquals(CellStatus.EMPT,player.takeShots().get(5).getStatus());
+
   }
+
+  @Test
+  public void testSuccessfulHit() {
+    player.setup(height, width, specifications);
+    playerManual.setup(height, width, specifications);
+    List<Coord> firstSalvo = player.reportDamage(shotCoords);
+    salvo1.setOpBoard(salvo.boardGetter());
+    player.successfulHits(firstSalvo);
+    ArrayList<ArrayList<CellStatus>> opBoard = salvo1.boardGetter().getBoard();
+    assertEquals(CellStatus.HIT_, opBoard.get(2).get(7));
+  }
+
+
 
 }

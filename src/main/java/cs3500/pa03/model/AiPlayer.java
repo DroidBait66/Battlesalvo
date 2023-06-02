@@ -12,7 +12,7 @@ import java.util.Random;
 public class AiPlayer implements Player {
   String playerName;
   int shipsRemaining;
-  public Board gameBoard;
+  private Board gameBoard;
   private ArrayList<ArrayList<CellStatus>> opBoard;
   private List<Ship> aiShips;
   Random rand;
@@ -52,7 +52,7 @@ public class AiPlayer implements Player {
    */
   @Override
   public List<Ship> setup(int height, int width, Map<ShipType, Integer> specifications) {
-    salvoAi.setRemainingShips(shipsRemaining);
+    this.salvoAi.setRemainingShips(shipsRemaining);
     List<Ship> result = new ArrayList<>();
     ArrayList<ArrayList<CellStatus>> tempBoard = createBoard(height, width);
 
@@ -89,6 +89,7 @@ public class AiPlayer implements Player {
       }
     }
     gameBoard = new Board(tempBoard);
+    salvoAi.setBoard(gameBoard);
     aiShips = result;
     return result;
   }
@@ -177,18 +178,9 @@ public class AiPlayer implements Player {
     opBoard = salvoAi.getOpBoard();
     int shotsLeft = shipsRemaining;
     List<Coord> output = new ArrayList<>();
-    ArrayList<Coord> prevHits = findHit();
-    if (prevHits.size() < 0) {  ///////  MAKE > 0 -------------------------------
-      int count = 0;
-      while (count < shotsLeft) {
-        int i = count;
-        if (i >= prevHits.size()) { i = count - prevHits.size(); }
 
-      }
-    } else {
-      for (int i = 0; i < shotsLeft; i += 1) {
-        output.add(randomHit(output));
-      }
+    for (int i = 0; i < shotsLeft; i += 1) {
+      output.add(randomHit(output));
     }
     return output;
   }
@@ -212,39 +204,6 @@ public class AiPlayer implements Player {
     }
   }
 
-
-
-  private ArrayList<Coord> findHit() {
-    ArrayList<Coord> result = new ArrayList<>();
-    for (int i = 0; i < opBoard.size(); i += 1) {
-      for (int j = 0; j < opBoard.get(i).size(); j += 1) {
-        if (opBoard.get(i).get(j).equals(CellStatus.HIT_)) {
-          result.add(new Coord(j, i, CellStatus.HIT_));
-        }
-      }
-    }
-    return result;
-  }
-
-
-  private boolean checkLeft(int x, int y, CellStatus status) {
-      return opBoard.get(y).get(x - 1).equals(status);
-    }
-
-    private boolean checkRight(int x, int y, CellStatus status) {
-      return opBoard.get(y).get(x + 1).equals(status);
-    }
-
-    private boolean checkUp(int x, int y, CellStatus status) {
-      return opBoard.get(y - 1).get(x).equals(status);
-    }
-
-    private boolean checkDown(int x, int y, CellStatus status) {
-      return opBoard.get(y + 1).get(x).equals(status);
-    }
-
-
-
     /**
      * @param opponentShotsOnBoard the opponent's shots on this player's board
      *
@@ -265,6 +224,7 @@ public class AiPlayer implements Player {
     }
     salvoAi.setRemainingShips(shipLeft());
     gameBoard = new Board(gameBoard.updateBoard(opponentShotsOnBoard, damageResult));
+    salvoAi.setBoard(gameBoard);
     return damageResult;
   }
 
@@ -287,6 +247,9 @@ public class AiPlayer implements Player {
    */
   @Override
   public void successfulHits(List<Coord> shotsThatHitOpponentShips) {
+    opBoard = salvoAi.getOpBoard();
+    opBoard = new Board(opBoard).updateBoard(new ArrayList<>(), shotsThatHitOpponentShips);
+    opBoard = new Board(opBoard).getOpponentBoard(opBoard);
 
   }
 

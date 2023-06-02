@@ -63,7 +63,7 @@ public class PlayGameTest {
 
     String output = outputStream.toString();
     String testAns = "Hello! Welcome to the OOD BattleSalvo Game! \n"
-        + "Please enter a valid height and width below:";
+        + "Please enter a valid height and width below:\n";
 
     assertEquals(testAns, output);
   }
@@ -92,7 +92,7 @@ public class PlayGameTest {
 
     String output = outputStream.toString();
     String testAns = "Please enter your fleet in the order [Carrier, Battleship, "
-        + "Destroyer, Submarine].\nRemember, your fleet may not exceed size 8";
+        + "Destroyer, Submarine].\nRemember, your fleet may not exceed size 8\n";
 
     assertEquals(testAns, output);
 
@@ -103,7 +103,7 @@ public class PlayGameTest {
 
     String output2 = outputStream2.toString();
     String testAns2 = "Please enter your fleet in the order [Carrier, Battleship, "
-        + "Destroyer, Submarine].\nRemember, your fleet may not exceed size 13";
+        + "Destroyer, Submarine].\nRemember, your fleet may not exceed size 13\n";
 
     assertEquals(testAns2, output2);
 
@@ -115,10 +115,10 @@ public class PlayGameTest {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
     PlayGame playGame = new PlayGameImpl(outputStream);
-    playGame.invalidFleet("invalid fleet sizes");
+    playGame.invalidFleet();
 
     String output = outputStream.toString();
-    String testAns = "Uh Oh! You've entered invalid fleet sizes.";
+    String testAns = "Uh Oh! You've entered invalid fleet.\n";
 
     assertEquals(testAns, output);
   }
@@ -131,7 +131,7 @@ public class PlayGameTest {
     aiPlayer.setup(height, width, specifications);
 
     PlayGame playGame = new PlayGameImpl(outputStream);
-    playGame.displayGameBoard(player.gameBoard, aiPlayer.gameBoard);
+    playGame.displayGameBoard(salvo.boardGetter(), salvo1.boardGetter());
     String output = outputStream.toString();
 
     String twoBlankRows = "\u001B[36mEMPT\u001B[0m \u001B[36mEMPT\u001B[0m \u001B[36mEMPT\u001B[0m "
@@ -165,7 +165,7 @@ public class PlayGameTest {
     playGame.askForSalvo(8);
 
     String output = outputStream.toString();
-    String testAns = "Please enter 8 shots: ";
+    String testAns = "Please enter 8 shots: \n";
     assertEquals(testAns, output);
 
   }
