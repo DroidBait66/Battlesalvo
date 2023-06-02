@@ -56,11 +56,12 @@ public class BoardTest {
    */
   @Test
   public void testUpdateBoard() {
+
     first.updateBoard(all, hit);
     assertEquals(CellStatus.MISS, boardList.get(0).get(0));
-    assertEquals(CellStatus.MISS, boardList.get(2).get(0));
-    assertEquals(CellStatus.MISS, boardList.get(3).get(0));
-    assertEquals(CellStatus.MISS, boardList.get(0).get(1));
+    assertEquals(CellStatus.MISS, boardList.get(0).get(2));
+    assertEquals(CellStatus.MISS, boardList.get(0).get(3));
+    assertEquals(CellStatus.MISS, boardList.get(1).get(0));
     assertEquals(CellStatus.HIT_, boardList.get(1).get(1));
 
 
@@ -69,8 +70,8 @@ public class BoardTest {
     ArrayList<Coord> testerHit = new ArrayList<>();
     testerHit.add(new Coord(2, 1, CellStatus.SHIP));
     first.updateBoard(tester, testerHit);
-    assertEquals(CellStatus.MISS, boardList.get(3).get(2));
-    assertEquals(CellStatus.HIT_, boardList.get(2).get(1));
+    assertEquals(CellStatus.MISS, boardList.get(2).get(3));
+    assertEquals(CellStatus.HIT_, boardList.get(1).get(2));
   }
 
   /**
@@ -80,16 +81,16 @@ public class BoardTest {
   public void testGetOpponentBoard() {
     ArrayList<ArrayList<CellStatus>> opBoard = new ArrayList<>();
     opBoard.add(new ArrayList<>(
-        Arrays.asList(CellStatus.MISS, CellStatus.MISS, CellStatus.EMPT, CellStatus.EMPT)));
+        Arrays.asList(CellStatus.MISS, CellStatus.EMPT, CellStatus.MISS, CellStatus.MISS)));
     opBoard.add(new ArrayList<>(
-        Arrays.asList(CellStatus.EMPT, CellStatus.HIT_, CellStatus.EMPT, CellStatus.EMPT)));
+        Arrays.asList(CellStatus.MISS, CellStatus.HIT_, CellStatus.EMPT, CellStatus.EMPT)));
     opBoard.add(new ArrayList<>(
-        Arrays.asList(CellStatus.MISS, CellStatus.EMPT, CellStatus.EMPT, CellStatus.EMPT)));
+        Arrays.asList(CellStatus.EMPT, CellStatus.EMPT, CellStatus.EMPT, CellStatus.EMPT)));
     opBoard.add(new ArrayList<>(
-        Arrays.asList(CellStatus.MISS, CellStatus.EMPT, CellStatus.EMPT, CellStatus.EMPT)));
+        Arrays.asList(CellStatus.EMPT, CellStatus.EMPT, CellStatus.EMPT, CellStatus.EMPT)));
 
-    first.getOpponentBoard(first.updateBoard(all, hit));
-    assertEquals(opBoard, boardList);
+    ArrayList<ArrayList<CellStatus>> testOp = first.getOpponentBoard(first.updateBoard(all, hit));
+    assertEquals(opBoard, testOp);
 
   }
 

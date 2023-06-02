@@ -29,6 +29,7 @@ public class Shots {
     curSalvo = tempSalvo;
   }
 
+
   /**
    * Getter for the salvo
    *
@@ -37,6 +38,8 @@ public class Shots {
   public List<Coord> getSalvo() {
     return curSalvo;
   }
+
+
 
 //Maybe delete
   /**
@@ -97,7 +100,6 @@ public class Shots {
     return opBoard;
   }
 
-  // Maybe delete
   public void setOpBoard(Board opponentBoard) {
     opBoard = opponentBoard.getOpponentBoard(opponentBoard.getBoard());
   }

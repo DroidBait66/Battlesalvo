@@ -222,6 +222,7 @@ public class AiPlayer implements Player {
         }
       }
     }
+    salvoAi.setMissedShots(opponentShotsOnBoard, damageResult);
     salvoAi.setRemainingShips(shipLeft());
     gameBoard = new Board(gameBoard.updateBoard(opponentShotsOnBoard, damageResult));
     salvoAi.setBoard(gameBoard);
@@ -234,11 +235,13 @@ public class AiPlayer implements Player {
    * @return the updated amount of ships remaining
    */
   private int shipLeft() {
+    int shipsLeft = 0;
     for (Ship s : aiShips) {
-      if (!s.isFloating()) {
-        shipsRemaining -= 1;
+      if (s.isFloating()) {
+        shipsLeft += 1;
       }
     }
+    shipsRemaining = shipsLeft;
     return shipsRemaining;
   }
 

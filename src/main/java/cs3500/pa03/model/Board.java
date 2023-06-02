@@ -32,19 +32,19 @@ public class Board {
   public ArrayList<ArrayList<CellStatus>> updateBoard(List<Coord> allOpShots,
                                                       List<Coord> damageCoords) {
     ArrayList<Coord> missedShots = new ArrayList<>();
-    for (Coord allOpShot : allOpShots) {
-      if (!damageCoords.contains(allOpShot)) {
-        missedShots.add(allOpShot);
+    for (Coord all : allOpShots) {
+      if (!damageCoords.contains(all)) {
+        missedShots.add(all);
       }
     }
 
 
     for (Coord temp : missedShots) {
-      board.get(temp.getX()).set(temp.getY(), CellStatus.MISS);
+      board.get(temp.getY()).set(temp.getX(), CellStatus.MISS);
     }
 
     for (Coord temp : damageCoords) {
-      board.get(temp.getX()).set(temp.getY(), CellStatus.HIT_);
+      board.get(temp.getY()).set(temp.getX(), CellStatus.HIT_);
     }
 
     return board;
@@ -60,12 +60,15 @@ public class Board {
       ArrayList<ArrayList<CellStatus>> opBoard) {
     ArrayList<ArrayList<CellStatus>> result = new ArrayList<>();
     for (ArrayList<CellStatus> tempList : opBoard) {
+      ArrayList<CellStatus> temp = new ArrayList<>();
       for (int col = 0; col < tempList.size(); col += 1) {
         if (tempList.get(col).equals(CellStatus.SHIP)) {
-          tempList.set(col, CellStatus.EMPT);
+          temp.add(CellStatus.EMPT);
+        } else {
+          temp.add(tempList.get(col));
         }
       }
-      result.add(tempList);
+      result.add(temp);
     }
     return result;
   }

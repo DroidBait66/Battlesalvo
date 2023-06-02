@@ -3,6 +3,7 @@ package cs3500.pa03.controller;
 import cs3500.pa03.model.AiPlayer;
 import cs3500.pa03.model.CellStatus;
 import cs3500.pa03.model.Coord;
+import cs3500.pa03.model.GameResult;
 import cs3500.pa03.model.ManualPlayer;
 import cs3500.pa03.model.Ship;
 import cs3500.pa03.model.ShipType;
@@ -10,7 +11,6 @@ import cs3500.pa03.model.Shots;
 import cs3500.pa03.model.ShotsAi;
 import cs3500.pa03.view.PlayGame;
 import cs3500.pa03.view.PlayGameImpl;
-import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -145,12 +145,18 @@ public class ControllerImpl implements Controller {
       row += 1;
     }
 
+
     if (count < limit * 2 - 1) {
       new PlayGameImpl(System.out).salvoFail();
       getPlayerSalvo();
     } else {
       playerSalvos.setSalvo(salvoInput);
       playerShots = player1.takeShots();
+      aiSalvos.setOpponentEmpty(playerSalvos.boardGetter());
+      aiShots = player2.takeShots();
+      for (Coord c : playerShots) {
+        System.out.println(c.getX() + " " + c.getY());
+      }
       if (!validHits(playerShots)) {
         new PlayGameImpl(System.out).salvoFail();
         getPlayerSalvo();
@@ -175,21 +181,43 @@ public class ControllerImpl implements Controller {
     return true;
   }
 
-  /**
-   *
-   */
   @Override
-  public void runSalvo() {
+  public void printSalvos() {
+    PlayGame playGame = new PlayGameImpl(System.out);
+    playGame.displayShots(player2.reportDamage(playerShots),aiSalvos.getMissedShots(),
+        player1.reportDamage(aiShots));
+    playGame.displayGameBoard(playerSalvos.boardGetter(), aiSalvos.boardGetter());
 
+    playerShipsRemaining = playerSalvos.getRemainingShips();
+    aiShipsRemaining = aiSalvos.getRemainingShips();
+
+
+
+
+  }
+
+  @Override
+  public void gameResult() {
+    PlayGame playGame = new PlayGameImpl(System.out);
+    if (playerShipsRemaining <= 0 && aiShipsRemaining >= 0) {
+      playGame.didPlayerWinDisplay(GameResult.LOST);
+    } else if (playerShipsRemaining >= 0 && aiShipsRemaining <= 0) {
+      playGame.didPlayerWinDisplay(GameResult.WON);
+    } else {
+      playGame.didPlayerWinDisplay(GameResult.TIED);
+    }
   }
 
 
 
   /**
-   * @return
+   * Checks if either the Ai or the player still have shots left
+   *
+   * @return boolean true or false
    */
   @Override
   public boolean isGameOver() {
-    return false;
+
+    return playerSalvos.getRemainingShips() <= 0 || aiSalvos.getRemainingShips() <= 0;
   }
 }

@@ -2,6 +2,9 @@ package cs3500.pa03.view;
 
 import cs3500.pa03.model.Board;
 import cs3500.pa03.model.Coord;
+import cs3500.pa03.model.GameResult;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface PlayGame {
 
@@ -32,6 +35,10 @@ public interface PlayGame {
   public void askForSalvo(int shots);
 
   void salvoFail();
+
+  void displayShots(List<Coord> playerHit, ArrayList<Coord> playerMiss, List<Coord> aiHits);
+
+  void didPlayerWinDisplay(GameResult result);
 
   //public void displaySalvoResults(List<Coord> player)
 

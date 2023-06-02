@@ -1,12 +1,30 @@
 package cs3500.pa03.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShotsAi {
   private int ships;
   private ArrayList<ArrayList<CellStatus>> opBoard;
+  private ArrayList<Coord> missedPlayerShots;
+
   private int emptySpaces;
   private Board board;
+
+
+  public void setMissedShots(List<Coord> allShots, ArrayList<Coord> hit) {
+    ArrayList<Coord> temp = new ArrayList<>();
+    for (Coord all : allShots) {
+      if (!hit.contains(all)) {
+        temp.add(all);
+      }
+    }
+    this.missedPlayerShots = temp;
+  }
+
+  public ArrayList<Coord> getMissedShots() {
+    return missedPlayerShots;
+  }
 
 
 

@@ -217,6 +217,16 @@ public class AiPlayerTest {
     assertEquals(7, firstSalvo.get(0).getY());
     assertEquals(3, firstSalvo.get(1).getX());
     assertEquals(7, firstSalvo.get(1).getY());
+
+    List<Coord> missedShots1 = salvo1.getMissedShots();
+    assertEquals(0, missedShots1.get(0).getX());
+    assertEquals(0, missedShots1.get(0).getY());
+    assertEquals(2, missedShots1.get(1).getX());
+    assertEquals(0, missedShots1.get(1).getY());
+    assertEquals(1, missedShots1.get(2).getX());
+    assertEquals(1, missedShots1.get(2).getY());
+
+
     List<Coord> secondSalvo = player.reportDamage(sinkCarrier);
     assertEquals(4, secondSalvo.get(0).getX());
     assertEquals(2, secondSalvo.get(1).getX());
@@ -228,6 +238,8 @@ public class AiPlayerTest {
       assertEquals(7, secondSalvo.get(i).getY());
     }
     assertEquals(5, salvo1.getRemainingShips());
+
+    assertEquals(new ArrayList<Coord>(), salvo1.getMissedShots());
 
   }
 
@@ -264,7 +276,7 @@ public class AiPlayerTest {
     salvo1.setOpBoard(salvo.boardGetter());
     player.successfulHits(firstSalvo);
     ArrayList<ArrayList<CellStatus>> opBoard = salvo1.boardGetter().getBoard();
-    assertEquals(CellStatus.HIT_, opBoard.get(2).get(7));
+    assertEquals(CellStatus.HIT_, opBoard.get(7).get(2));
   }
 
 

@@ -257,7 +257,7 @@ public class ManualPlayerTest {
     salvo.setOpBoard(aiSalvo.boardGetter());
     player.successfulHits(firstSalvo);
     ArrayList<ArrayList<CellStatus>> opBoard = aiSalvo.boardGetter().getBoard();
-    assertEquals(CellStatus.HIT_, opBoard.get(2).get(7));
+    assertEquals(CellStatus.SHIP, opBoard.get(7).get(2));
 
 
   }

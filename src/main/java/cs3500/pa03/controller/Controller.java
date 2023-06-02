@@ -12,7 +12,10 @@ public interface Controller {
 
   void getPlayerSalvo();
 
-  void runSalvo();
+  void printSalvos();
+
+
+  void gameResult();
 
   boolean isGameOver();
 }

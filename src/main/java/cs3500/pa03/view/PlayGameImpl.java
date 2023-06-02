@@ -2,9 +2,12 @@ package cs3500.pa03.view;
 
 import cs3500.pa03.model.Board;
 import cs3500.pa03.model.CellStatus;
+import cs3500.pa03.model.Coord;
+import cs3500.pa03.model.GameResult;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of actual game
@@ -18,6 +21,11 @@ public class PlayGameImpl implements PlayGame {
 
   PrintStream printStream;
 
+  /**
+   * Constructor for view method
+   *
+   * @param stream output stream of text
+   */
   public PlayGameImpl(OutputStream stream) {
     this.printStream = new PrintStream(stream);
   }
@@ -49,6 +57,8 @@ public class PlayGameImpl implements PlayGame {
 
   /**
    * asks for fleet selection
+   *
+   * @param max the max amount of ship there can be
    */
   @Override
   public void fleetSelection(int max) {
@@ -61,7 +71,6 @@ public class PlayGameImpl implements PlayGame {
 
   /**
    * called when fleetSlection failed
-   *
    */
   @Override
   public void invalidFleet() {
@@ -75,7 +84,7 @@ public class PlayGameImpl implements PlayGame {
    * displays the two given boards in the current state
    *
    * @param player players board
-   * @param ai ai board, location of ships is hidden
+   * @param ai AI's board, location of ships is hidden
    */
   @Override
   public void displayGameBoard(Board player, Board ai) {
@@ -116,13 +125,14 @@ public class PlayGameImpl implements PlayGame {
       case "SHIP" -> ANSI_PURPLE + s + ANSI_RESET;
       case "HIT_" -> ANSI_RED + s + ANSI_RESET;
       case "MISS" -> ANSI_GREEN + s + ANSI_RESET;
-      case "EMPT" -> ANSI_CYAN + s + ANSI_RESET;
-      default -> s;
+      default -> ANSI_CYAN + s + ANSI_RESET;
     };
   }
 
   /**
-   * @param shots
+   * asks the player for their salvo
+   *
+   * @param shots max number of shots they can take
    */
   @Override
   public void askForSalvo(int shots) {
@@ -132,10 +142,50 @@ public class PlayGameImpl implements PlayGame {
 
   }
 
+  /**
+   * used when the incorrect amount of shots is given (not enough shots)
+   */
   @Override
   public void salvoFail() {
     String get = "Incorrect amount of salvos, please try again\n";
     printStream.print(get);
+  }
+
+  /**
+   * Displays the results of a salvo in text
+   *
+   * @param playerHit player shots that hit
+   * @param playerMiss player shots that missed
+   * @param aiHits ai shots that hit
+   */
+  @Override
+  public void displayShots(List<Coord> playerHit, ArrayList<Coord> playerMiss, List<Coord> aiHits) {
+    String playerHitStr = "Player shots that hit:\n";
+    for (Coord c : playerHit) {
+      playerHitStr += "X: " + c.getX() + " Y: " + c.getY() + "\n";
+    }
+    String playerMissStr = "\nPlayer shots that missed:\n";
+    for (Coord c : playerMiss) {
+      playerMissStr += "X: " + c.getX() + " Y: " + c.getY() + "\n";
+    }
+    String aiHitStr = "\nAi shots that hit:\n";
+    for (Coord c : aiHits) {
+      aiHitStr += "X: " + c.getX() + " Y: " + c.getY() + "\n";
+    }
+    printStream.print(playerHitStr + playerMissStr + aiHitStr);
+
+  }
+
+  /**
+   * Displays the result of the game
+   *
+   * @param result game result enum that determines the outcome of the game
+   */
+  @Override
+  public void didPlayerWinDisplay(GameResult result) {
+    String gameOver = "In this game, you " + result.toString();
+    printStream.print(gameOver);
+
   }
 
 
