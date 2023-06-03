@@ -4,7 +4,24 @@ package cs3500.pa03.model;
  * Creates the enum ShipType
  */
 public enum ShipType {
-    CARRIER(6), BATTLESHIP(5), DESTROYER(4), SUBMARINE(3);
+
+  /**
+   * Carrier size 6
+   */
+  CARRIER(6),
+
+  /**
+   * Battleship size 5
+   */
+  BATTLESHIP(5),
+  /**
+   * Destroyer, size 4
+   */
+  DESTROYER(4),
+  /**
+   * Submarine, size 3
+   */
+  SUBMARINE(3);
 
   private final int size;
 

@@ -24,6 +24,7 @@ public class AiPlayer implements Player {
    * @param playerName name of player (for later impl)
    * @param shipsRemaining how many ships are remaining
    * @param rand random variable, used to set seed in testing
+   * @param salvoAi shots object
    */
   public AiPlayer(String playerName, int shipsRemaining, Random rand, ShotsAi salvoAi) {
     this.playerName = playerName;
@@ -225,7 +226,7 @@ public class AiPlayer implements Player {
         for (Coord shipC : s.getLocation()) {
           if (shipC.getX() == (c.getX()) && shipC.getY() == c.getY()) {
             damageResult.add(c);
-            s.getSalvoDamage(new ArrayList<>(Arrays.asList(c)));
+            s.getSalvoDamage(new ArrayList<>(List.of(c)));
           }
         }
       }

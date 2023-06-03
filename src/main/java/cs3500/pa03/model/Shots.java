@@ -87,18 +87,38 @@ public class Shots {
     return ships;
   }
 
+  /**
+   * Sets board value
+   *
+   * @param boards current state of the players board
+   */
   public void setBoard(Board boards) {
     this.board = boards;
   }
 
+  /**
+   * getter for the current state of the board
+   *
+   * @return current state of the board
+   */
   public Board boardGetter() {
     return this.board;
   }
 
+  /**
+   * getter for opponents board
+   *
+   * @return the opponents board without any of their ship positions
+   */
   public ArrayList<ArrayList<CellStatus>> getOpBoard() {
     return opBoard;
   }
 
+  /**
+   * sets the opponents board in this object
+   *
+   * @param opponentBoard current state of opponents board
+   */
   public void setOpBoard(Board opponentBoard) {
     opBoard = opponentBoard.getOpponentBoard(opponentBoard.getBoard());
   }

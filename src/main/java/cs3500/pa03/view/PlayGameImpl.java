@@ -13,10 +13,29 @@ import java.util.List;
  * Implementation of actual game
  */
 public class PlayGameImpl implements PlayGame {
+
+  /**
+   * purple color for ships
+   */
   public static final String ANSI_PURPLE = "\u001B[35m";
+  /**
+   * cyan color for empty spaces
+   */
   public static final String ANSI_CYAN = "\u001B[36m";
+
+  /**
+   * resets color
+   */
   public static final String ANSI_RESET = "\u001B[0m";
+
+  /**
+   * red color for hits
+   */
   public static final String ANSI_RED = "\u001B[31m";
+
+  /**
+   * Green color for misses
+   */
   public static final String ANSI_GREEN = "\u001B[32m";
 
   PrintStream printStream;
@@ -147,7 +166,8 @@ public class PlayGameImpl implements PlayGame {
    */
   @Override
   public void salvoFail() {
-    String get = "Incorrect amount of salvos, please try again\n";
+    String get = "Incorrect salvos, \nplease make sure "
+        + "all values are in the bounds and you gave the correct amount of coords\n";
     printStream.print(get);
   }
 

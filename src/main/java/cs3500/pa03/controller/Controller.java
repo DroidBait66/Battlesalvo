@@ -18,6 +18,8 @@ public interface Controller {
 
   /**
    * Gets the max number of ships allowed. needed to make fleetSelection work
+   *
+   * @return integer that is lower
    */
   int getMaxShips();
 

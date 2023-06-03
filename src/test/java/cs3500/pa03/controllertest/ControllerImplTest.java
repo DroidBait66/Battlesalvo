@@ -5,7 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import cs3500.pa03.controller.Controller;
 import cs3500.pa03.controller.ControllerImpl;
+import cs3500.pa03.view.PlayGame;
+import cs3500.pa03.view.PlayGameImpl;
 import java.io.ByteArrayInputStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -13,6 +16,15 @@ import org.junit.jupiter.api.Test;
  */
 public class ControllerImplTest {
 
+  PlayGame view;
+
+  /**
+   * sets up where the view is going to output
+   */
+  @BeforeEach
+  public void setView() {
+    view = new PlayGameImpl(System.out);
+  }
 
   /**
    * Tests the getMaxShips helper method
@@ -23,7 +35,7 @@ public class ControllerImplTest {
     String userInput = "1 22 7 9";
     ByteArrayInputStream inputAsByte = new ByteArrayInputStream(userInput.getBytes());
     System.setIn(inputAsByte);
-    Controller cont = new ControllerImpl();
+    Controller cont = new ControllerImpl(view);
 
     cont.start();
 
@@ -56,7 +68,7 @@ public class ControllerImplTest {
         System.lineSeparator());
     ByteArrayInputStream inputAsByte2 = new ByteArrayInputStream(userInput2.getBytes());
     System.setIn(inputAsByte2);
-    Controller cont = new ControllerImpl();
+    Controller cont = new ControllerImpl(view);
     cont.start();
     cont.fleetSelection();
     cont.boardCreation();

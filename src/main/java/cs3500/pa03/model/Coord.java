@@ -15,6 +15,7 @@ public class Coord {
    *
    * @param x is the X coord of the cell
    * @param y is the Y coord of the cell
+   * @param status is the status of the coord
    */
   public Coord(int x, int y, CellStatus status) {
     this.xcoord = x;
@@ -49,6 +50,11 @@ public class Coord {
     return this.status;
   }
 
+  /**
+   * Used to change the status of a ship
+   *
+   * @param c status to be changed
+   */
   public void changeStatus(CellStatus c) {
     status = c;
   }

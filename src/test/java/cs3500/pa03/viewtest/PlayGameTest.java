@@ -251,7 +251,8 @@ public class PlayGameTest {
     PlayGame playGame = new PlayGameImpl(outputStream);
     playGame.salvoFail();
     String output = outputStream.toString();
-    String outputResult = "Incorrect amount of salvos, please try again\n";
+    String outputResult = "Incorrect salvos, \nplease make sure "
+        + "all values are in the bounds and you gave the correct amount of coords\n";
     assertEquals(outputResult, output);
 
   }

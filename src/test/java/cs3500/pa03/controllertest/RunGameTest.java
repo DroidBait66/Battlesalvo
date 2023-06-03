@@ -1,10 +1,16 @@
 package cs3500.pa03.controllertest;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import cs3500.pa03.controller.RunGame;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import org.junit.jupiter.api.Test;
 
+/**
+ * RunGame test class
+ */
 public class RunGameTest {
 
   @Test
@@ -33,9 +39,15 @@ public class RunGameTest {
     System.setIn(inputAsByte2);
 
     RunGame game = new RunGame();
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    PrintStream printStream = new PrintStream(output);
+
+    System.setOut(printStream);
+
     game.run();
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    System.out.println(outputStream.toString().contains("In this game"));
+
+    printStream.flush();
+    assertTrue(output.toString().contains("In this game"));
 
 
 

@@ -30,6 +30,11 @@ public class ShotsAi {
     this.missedPlayerShots = temp;
   }
 
+  /**
+   * All shots the player missed on the ai
+   *
+   * @return arraylist of coords
+   */
   public ArrayList<Coord> getMissedShots() {
     return missedPlayerShots;
   }
@@ -63,7 +68,11 @@ public class ShotsAi {
   }
 
 
-  // Maybe delete
+  /**
+   * Getter for opponent board
+   *
+   * @return gets current state of opponents board (minus ship placement)
+   */
   public ArrayList<ArrayList<CellStatus>> getOpBoard() {
     return opBoard;
   }
@@ -90,10 +99,20 @@ public class ShotsAi {
     return ships;
   }
 
+  /**
+   * Setter for the board
+   *
+   * @param boards current state of Ai board
+   */
   public void setBoard(Board boards) {
     this.board = boards;
   }
 
+  /**
+   * Getter for the current state of the board
+   *
+   * @return current state of board
+   */
   public Board boardGetter() {
     return board;
   }

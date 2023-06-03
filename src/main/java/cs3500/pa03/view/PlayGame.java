@@ -23,6 +23,8 @@ public interface PlayGame {
 
   /**
    * asks for fleet selection
+   *
+   * @param max the max amount of ship there can be
    */
   void fleetSelection(int max);
 

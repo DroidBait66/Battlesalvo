@@ -38,6 +38,18 @@ public class ControllerImpl implements Controller {
   private List<Coord> playerShots;
   private List<Coord> aiShots;
 
+  private final PlayGame view;
+
+  /**
+   * Constructor for controller impl
+   *
+   * @param viewer where the outputs will go
+   */
+  public ControllerImpl(PlayGame viewer) {
+    this.view = viewer;
+
+  }
+
 
 
 
@@ -47,7 +59,7 @@ public class ControllerImpl implements Controller {
    */
   @Override
   public void start() {
-    PlayGame playGame = new PlayGameImpl(System.out);
+    PlayGame playGame = this.view;
     playGame.introDisplay();
 
 
@@ -69,7 +81,7 @@ public class ControllerImpl implements Controller {
   @Override
   public void fleetSelection() {
     int maxShips = Math.min(height, width);
-    PlayGame pickFleet = new PlayGameImpl(System.out);
+    PlayGame pickFleet = this.view;
     pickFleet.fleetSelection(maxShips);
 
 
@@ -108,6 +120,8 @@ public class ControllerImpl implements Controller {
 
   /**
    * Gets the max number of ships allowed. needed to make fleetSelection work
+   *
+   * @return integer that is lower
    */
   public int getMaxShips() {
     return Math.min(height, width);
@@ -124,7 +138,7 @@ public class ControllerImpl implements Controller {
     playerShips = player1.setup(height, width, specs);
     aiShips = player2.setup(height, width, specs);
 
-    PlayGame playGame = new PlayGameImpl(System.out);
+    PlayGame playGame = this.view;
     playGame.displayGameBoard(playerSalvos.boardGetter(), aiSalvos.boardGetter());
 
   }
@@ -136,7 +150,7 @@ public class ControllerImpl implements Controller {
   public void getPlayerSalvo() {
     playerSalvos.setOpponentEmpty(aiSalvos.boardGetter());
     int limit = playerSalvos.limitShots();
-    PlayGame playGame = new PlayGameImpl(System.out);
+    PlayGame playGame = this.view;
     playGame.askForSalvo(limit);
 
     int[][] salvoInput = new int[limit][2];
@@ -186,6 +200,11 @@ public class ControllerImpl implements Controller {
         }
       }
     }
+    for (Coord c : list) {
+      if (c.getY() >= height || c.getX() >= width) {
+        return false;
+      }
+    }
     return true;
   }
 
@@ -194,7 +213,7 @@ public class ControllerImpl implements Controller {
    */
   @Override
   public void printSalvos() {
-    PlayGame playGame = new PlayGameImpl(System.out);
+    PlayGame playGame = this.view;
     playGame.displayShots(player2.reportDamage(playerShots), aiSalvos.getMissedShots(),
         player1.reportDamage(aiShots));
     playGame.displayGameBoard(playerSalvos.boardGetter(), aiSalvos.boardGetter());
@@ -212,7 +231,7 @@ public class ControllerImpl implements Controller {
    */
   @Override
   public void gameResult() {
-    PlayGame playGame = new PlayGameImpl(System.out);
+    PlayGame playGame = this.view;
     if (playerShipsRemaining <= 0 && aiShipsRemaining >= 0) {
       playGame.didPlayerWinDisplay(GameResult.LOST);
     } else if (playerShipsRemaining >= 0 && aiShipsRemaining <= 0) {

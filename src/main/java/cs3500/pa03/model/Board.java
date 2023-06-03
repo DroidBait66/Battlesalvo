@@ -7,8 +7,13 @@ import java.util.List;
  * Class for object Board
  */
 public class Board {
-  private ArrayList<ArrayList<CellStatus>> board;
+  private final ArrayList<ArrayList<CellStatus>> board;
 
+  /**
+   * constructor for board
+   *
+   * @param board arraylist of arraylist of board
+   */
   public Board(ArrayList<ArrayList<CellStatus>> board) {
     this.board = board;
   }
