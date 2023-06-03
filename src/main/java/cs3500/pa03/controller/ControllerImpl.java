@@ -76,7 +76,7 @@ public class ControllerImpl implements Controller {
     clearSpecs();
     int count = 0;
     int[] numShips =  new int[4];
-    while (scanner.hasNextInt() && count < 4) {
+    while (count < 4) {
       numShips[count] = scanner.nextInt();
       count += 1;
     }
@@ -142,7 +142,7 @@ public class ControllerImpl implements Controller {
     int[][] salvoInput = new int[limit][2];
     int count = 0;
     int row = 0;
-    while (scanner.hasNextInt() && count < limit * 2) {
+    while (count < limit * 2) {
       salvoInput[row][0] = scanner.nextInt();
       count += 1;
       salvoInput[row][1] = scanner.nextInt();

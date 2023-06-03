@@ -2,6 +2,7 @@ package cs3500.pa03.controllertest;
 
 import cs3500.pa03.controller.RunGame;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import org.junit.jupiter.api.Test;
 
 public class RunGameTest {
@@ -33,6 +34,11 @@ public class RunGameTest {
 
     RunGame game = new RunGame();
     game.run();
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    System.out.println(outputStream.toString().contains("In this game"));
+
+
+
 
   }
 }
