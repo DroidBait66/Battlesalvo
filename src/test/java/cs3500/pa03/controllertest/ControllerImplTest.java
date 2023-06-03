@@ -14,7 +14,8 @@ import org.junit.jupiter.api.Test;
 /**
  * test for the implementation of the controller
  */
-public class ControllerImplTest {
+public class
+ControllerImplTest {
 
   PlayGame view;
 
@@ -32,7 +33,7 @@ public class ControllerImplTest {
   @Test
   public void testGetMaxShips() {
 
-    String userInput = "1 22 7 9";
+    String userInput = "1 22 7 9"; // coords input, 2 wrong w right
     ByteArrayInputStream inputAsByte = new ByteArrayInputStream(userInput.getBytes());
     System.setIn(inputAsByte);
     Controller cont = new ControllerImpl(view);
